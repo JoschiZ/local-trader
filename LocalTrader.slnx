@@ -3,7 +3,7 @@
     <File Path=".dockerignore" />
     <File Path=".gitignore" />
   </Folder>
-  <Project Path="LocalTrader.Api/LocalTrader.Api.csproj" />
-  <Project Path="LocalTrader.Shared/LocalTrader.Shared.csproj" />
+  <Project Path="src/LocalTrader.Api/LocalTrader.Api.csproj" />
+  <Project Path="src/LocalTrader.Shared/LocalTrader.Shared.csproj" />
   <Project Path="src/LocalTrader.WebApp/LocalTrader.WebApp.csproj" />
 </Solution>
