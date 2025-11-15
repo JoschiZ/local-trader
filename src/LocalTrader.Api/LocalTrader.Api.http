@@ -1,6 +1,0 @@
-@LocalTrader.Api_HostAddress = http://localhost:5025
-
-GET {{LocalTrader.Api_HostAddress}}/weatherforecast/
-Accept: application/json
-
-###
