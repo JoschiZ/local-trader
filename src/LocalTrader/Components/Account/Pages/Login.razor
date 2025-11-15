@@ -17,7 +17,7 @@
 <MudGrid>
     <MudItem md="6">
         <StatusMessage Message="@_errorMessage"/>
-        <EditForm Model="Input" method="post" OnValidSubmit="LoginUser" FormName="login">
+        <EditForm EditContext="@_editContext" method="post" OnSubmit="@LoginUser" FormName="login">
             <DataAnnotationsValidator/>
 
             <MudText GutterBottom="true" Typo="Typo.body1">Use a local account to log in.</MudText>
@@ -34,18 +34,33 @@
                                         UserAttributes="@(new Dictionary<string, object?> { { "autocomplete", "current-password" }, { "aria-required", "true" } })"/>
                 </MudItem>
                 <MudItem md="12">
-                    <MudStaticCheckBox For="@(() => Input.RememberMe)" @bind-Value="Input.RememberMe">Remember me</MudStaticCheckBox>
+                    <MudStaticCheckBox For="@(() => Input.RememberMe)" @bind-Value="Input.RememberMe">Remember me
+                    </MudStaticCheckBox>
                 </MudItem>
                 <MudItem md="12">
-                    <MudStaticButton Variant="Variant.Filled" Color="Color.Primary" FullWidth="true" FormAction="FormAction.Submit">Log in</MudStaticButton>
+                    <MudStack Row>
+                        <MudStaticButton Variant="Variant.Filled" Color="Color.Primary" FullWidth="true"
+                                         FormAction="FormAction.Submit">Log in
+                        </MudStaticButton>
+                        <span class="text-secondary mx-auto mt-2">OR</span>
+                        <PasskeySubmit Operation="PasskeyOperation.Request" Name="Input.Passkey" EmailName="Input.Email"
+                                       class="btn btn-link mx-auto">Log in with a passkey
+                        </PasskeySubmit>
+                    </MudStack>
+
                 </MudItem>
             </MudGrid>
         </EditForm>
 
         <MudGrid Class="mt-4">
             <MudItem md="12">
-                <MudLink Href="Account/ForgotPassword">Forgot your password?</MudLink><br/>
-                <MudLink Href="@(NavigationManager.GetUriWithQueryParameters("Account/Register", new Dictionary<string, object?> { ["ReturnUrl"] = ReturnUrl }))">Register as a new user</MudLink><br/>
+                <MudLink Href="Account/ForgotPassword">Forgot your password?</MudLink>
+                <br/>
+                <MudLink
+                    Href="@(NavigationManager.GetUriWithQueryParameters("Account/Register", new Dictionary<string, object?> { ["ReturnUrl"] = ReturnUrl }))">
+                    Register as a new user
+                </MudLink>
+                <br/>
                 <MudLink Href="Account/ResendEmailConfirmation">Resend email confirmation</MudLink>
             </MudItem>
         </MudGrid>
@@ -59,6 +74,7 @@
 
 @code {
     private string? _errorMessage;
+    private EditContext _editContext = null!;
 
     [CascadingParameter] private HttpContext HttpContext { get; set; } = null!;
 
@@ -68,6 +84,7 @@
 
     protected override async Task OnInitializedAsync()
     {
+        _editContext = new EditContext(Input);
         if (HttpMethods.IsGet(HttpContext.Request.Method))
         {
             // Clear the existing external cookie to ensure a clean login process
@@ -77,10 +94,21 @@
 
     public async Task LoginUser()
     {
+        if (!string.IsNullOrEmpty(Input.Passkey?.Error))
+        {
+            _errorMessage = $"Error: {Input.Passkey.Error}";
+            return;
+        }
+
         // This doesn't count login failures towards account lockout
         // To enable password failures to trigger account lockout, set lockoutOnFailure: true
-        var result = await SignInManager.PasswordSignInAsync(Input.Email, Input.Password, Input.RememberMe, lockoutOnFailure: false);
-        if (result.Succeeded)
+        var result = await SignInAsync();
+
+        if (result is null)
+        {
+            _errorMessage = "Error: Invalid login attempt.";
+        }
+        else if (result.Succeeded)
         {
             Logger.LogInformation("User logged in.");
             RedirectManager.RedirectTo(ReturnUrl);
@@ -102,6 +130,22 @@
         }
     }
 
+    private async Task<SignInResult?> SignInAsync()
+    {
+        if (!string.IsNullOrEmpty(Input.Passkey?.CredentialJson))
+        {
+            // No form validation when using passkey!
+            return await SignInManager.PasskeySignInAsync(Input.Passkey.CredentialJson);
+        }
+
+        if (!_editContext.Validate())
+        {
+            return null;
+        }
+        
+        return await SignInManager.PasswordSignInAsync(Input.Email, Input.Password, Input.RememberMe, lockoutOnFailure: false);
+    }
+
     private sealed class InputModel
     {
         [Required] [EmailAddress] public string Email { get; set; } = "";
@@ -111,6 +155,8 @@
         public string Password { get; set; } = "";
 
         [Display(Name = "Remember me?")] public bool RememberMe { get; set; }
+
+        public PasskeyInputModel? Passkey { get; set; }
     }
 
 }
