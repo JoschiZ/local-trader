@@ -33,4 +33,9 @@
       <AdditionalFiles Include="guid-v7.typedid" />
     </ItemGroup>
 
+
+    <ItemGroup>
+      <Folder Include="Api\" />
+    </ItemGroup>
+
 </Project>
