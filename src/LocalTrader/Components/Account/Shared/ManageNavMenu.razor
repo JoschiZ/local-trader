@@ -1,5 +1,4 @@
 ﻿@using Microsoft.AspNetCore.Identity
-@using LocalTrader.Data
 @using LocalTrader.Data.User
 
 @inject SignInManager<ApplicationUser> SignInManager
@@ -15,6 +14,7 @@
     <MudNavLink Href="Account/Manage/TwoFactorAuthentication" Icon="@Icons.Material.Filled.LockClock">Two-factor authentication</MudNavLink>
     <MudNavLink Href="Account/Manage/Passkeys" Icon="@Icons.Material.Filled.Key">Passkeys</MudNavLink>
     <MudNavLink Href="Account/Manage/PersonalData" Icon="@Icons.Material.Filled.PersonRemove">Personal data</MudNavLink>
+    <MudNavLink Href="TestWASMInProfile" Icon="@Icons.Material.Filled.PersonRemove">WASM PageS</MudNavLink>
 </MudNavMenu>
 
 @code {

@@ -1,6 +1,5 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.UI.Services;
-using LocalTrader.Data;
 using LocalTrader.Data.User;
 
 namespace LocalTrader.Components.Account;
