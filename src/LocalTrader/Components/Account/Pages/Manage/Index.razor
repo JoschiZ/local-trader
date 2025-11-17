@@ -3,6 +3,7 @@
 @using System.ComponentModel.DataAnnotations
 @using Microsoft.AspNetCore.Identity
 @using LocalTrader.Data
+@using LocalTrader.Data.User
 
 @inject UserManager<ApplicationUser> UserManager
 @inject SignInManager<ApplicationUser> SignInManager
@@ -31,17 +32,16 @@
 @code {
     private ApplicationUser _user = null!;
     private string? _username;
-    private string? _phoneNumber;
 
     [CascadingParameter] private HttpContext HttpContext { get; set; } = null!;
 
-    [SupplyParameterFromForm] private InputModel? Input { get; set; } = new();
+    [SupplyParameterFromForm] private InputModel? Input { get; set; }
 
     protected override async Task OnInitializedAsync()
     {
+        Input ??= new InputModel();
         _user = await UserAccessor.GetRequiredUserAsync(HttpContext);
         _username = await UserManager.GetUserNameAsync(_user);
-        _phoneNumber = await UserManager.GetPhoneNumberAsync(_user);
 
     }
 
@@ -59,6 +59,7 @@
 
     private sealed class InputModel
     {
+
     }
 
 }

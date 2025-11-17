@@ -1,5 +1,5 @@
+using LocalTrader.Data.User;
 using Microsoft.AspNetCore.Identity;
-using LocalTrader.Data;
 
 namespace LocalTrader.Components.Account;
 

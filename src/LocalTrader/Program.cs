@@ -1,10 +1,10 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using MudBlazor.Services;
-using LocalTrader.Client.Pages;
 using LocalTrader.Components;
 using LocalTrader.Components.Account;
 using LocalTrader.Data;
+using LocalTrader.Data.User;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -27,11 +27,14 @@ builder.Services.AddAuthentication(options =>
     })
     .AddIdentityCookies();
 builder.Services.AddAuthorization();
+builder.Services.AddScoped<IUserClaimsPrincipalFactory<ApplicationUser>, SupplementalClaimsFactory>();
 
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection") ??
                        throw new InvalidOperationException("Connection string 'DefaultConnection' not found.");
+
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseSqlite(connectionString));
+
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 
 builder.Services.AddIdentityCore<ApplicationUser>(options =>
@@ -44,6 +47,7 @@ builder.Services.AddIdentityCore<ApplicationUser>(options =>
     .AddDefaultTokenProviders();
 
 builder.Services.AddSingleton<IEmailSender<ApplicationUser>, IdentityNoOpEmailSender>();
+
 
 var app = builder.Build();
 
