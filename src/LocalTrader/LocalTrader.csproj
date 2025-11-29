@@ -13,6 +13,7 @@
 
 
     <ItemGroup>
+        <PackageReference Include="FastEndpoints" Version="7.1.1" />
         <PackageReference Include="JetBrains.Annotations" Version="2025.2.2" />
         <PackageReference Include="StronglyTypedId" Version="1.0.0-beta08" />
         <PackageReference Include="StronglyTypedId.Templates" Version="1.0.0-beta08" />
@@ -31,11 +32,6 @@
 
     <ItemGroup>
       <AdditionalFiles Include="guid-v7.typedid" />
-    </ItemGroup>
-
-
-    <ItemGroup>
-      <Folder Include="Api\" />
     </ItemGroup>
 
 </Project>
