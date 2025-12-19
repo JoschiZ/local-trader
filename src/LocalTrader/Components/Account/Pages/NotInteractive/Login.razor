@@ -147,7 +147,7 @@
         return await SignInManager.PasswordSignInAsync(Input.Email, Input.Password, Input.RememberMe, lockoutOnFailure: false);
     }
 
-    private sealed class InputModel
+    public sealed class InputModel
     {
         [Required] [EmailAddress] public string Email { get; set; } = "";
 

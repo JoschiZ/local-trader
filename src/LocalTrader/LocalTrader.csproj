@@ -7,10 +7,6 @@
         <UserSecretsId>aspnet-LocalTrader-ce5cb9ed-4e17-4b81-8584-b6d8d113b7d2</UserSecretsId>
     </PropertyGroup>
 
-    <ItemGroup>
-        <None Update="Data\app.db" CopyToOutputDirectory="PreserveNewest" ExcludeFromSingleFile="true"/>
-    </ItemGroup>
-
 
     <ItemGroup>
         <PackageReference Include="Aspire.Npgsql.EntityFrameworkCore.PostgreSQL" Version="13.1.0" />
@@ -72,6 +68,11 @@
       <_ContentIncludedByDefault Remove="Components\Account\Pages\Manage\SetPassword.razor" />
       <_ContentIncludedByDefault Remove="Components\Account\Pages\Manage\TwoFactorAuthentication.razor" />
       <_ContentIncludedByDefault Remove="Components\Account\Pages\Manage\_Imports.razor" />
+    </ItemGroup>
+
+
+    <ItemGroup>
+      <Folder Include="Data\Migrations\" />
     </ItemGroup>
 
 </Project>

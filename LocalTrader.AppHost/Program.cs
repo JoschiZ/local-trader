@@ -4,7 +4,8 @@ using LocalTrader.Shared.Aspire;
 var builder = DistributedApplication.CreateBuilder(args);
 
 var postgres = builder
-    .AddPostgres(Services.PostgresServer);
+    .AddPostgres(Services.PostgresServer)
+    .WithDataVolume();
 
 var db = postgres
     .AddDatabase(Services.LocalTraderDb);

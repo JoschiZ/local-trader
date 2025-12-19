@@ -8,6 +8,7 @@ using LocalTrader.Components.Account;
 using LocalTrader.Data;
 using LocalTrader.Data.Account;
 using LocalTrader.Shared.Aspire;
+using NSwag;
 using Scalar.AspNetCore;
 
 
@@ -15,8 +16,6 @@ var builder = WebApplication.CreateBuilder(args);
 
 builder.AddServiceDefaults();
 var services = builder.Services;
-var configuration = builder.Configuration;
-
 
 services.AddFastEndpoints(x =>
     {
@@ -24,7 +23,18 @@ services.AddFastEndpoints(x =>
     })
     .SwaggerDocument(x =>
     {
-
+        x.EnableJWTBearerAuth = false;
+        x.DocumentSettings = settings =>
+        {
+            settings.MarkNonNullablePropsAsRequired();
+            settings.AddAuth(IdentityConstants.ApplicationScheme, new OpenApiSecurityScheme
+            {
+                Type = OpenApiSecuritySchemeType.ApiKey,
+                In = OpenApiSecurityApiKeyLocation.Cookie,
+                Name = ".AspNetCore.Identity.Application"
+            });
+        };
+        
     });
 
 // Add MudBlazor services
@@ -40,7 +50,9 @@ builder.Services.AddCascadingAuthenticationState();
 builder.Services.AddScoped<IdentityUserAccessor>();
 builder.Services.AddScoped<IdentityRedirectManager>();
 
-builder.Services.AddAuthentication(options =>
+builder
+    .Services
+    .AddAuthentication(options =>
     {
         options.DefaultScheme = IdentityConstants.ApplicationScheme;
         options.DefaultSignInScheme = IdentityConstants.ExternalScheme;
