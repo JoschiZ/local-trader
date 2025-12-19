@@ -15,4 +15,8 @@
         <PackageReference Include="MudBlazor" Version="8.*"/>
     </ItemGroup>
 
+    <ItemGroup>
+      <Folder Include="Components\Account\Pages\Interactive\" />
+    </ItemGroup>
+
 </Project>
