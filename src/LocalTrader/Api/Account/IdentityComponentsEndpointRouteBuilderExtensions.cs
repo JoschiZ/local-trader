@@ -11,7 +11,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Primitives;
 
-namespace LocalTrader.Components.Account;
+namespace LocalTrader.Api.Account;
 
 internal static class IdentityComponentsEndpointRouteBuilderExtensions
 {

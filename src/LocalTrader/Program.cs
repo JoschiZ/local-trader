@@ -1,4 +1,5 @@
 using FastEndpoints;
+using LocalTrader.Api.Account;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using MudBlazor.Services;
