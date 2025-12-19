@@ -1,5 +1,6 @@
 ﻿using System.Security.Claims;
-using LocalTrader.Data.User;
+using LocalTrader.Data.Account;
+
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Options;
 

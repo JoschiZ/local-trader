@@ -1,5 +1,6 @@
 using System.Diagnostics.CodeAnalysis;
-using LocalTrader.Data.User;
+using LocalTrader.Data.Account;
+
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Identity;
 

@@ -1,8 +1,9 @@
 ﻿@page "/Account/Manage/TwoFactorAuthentication"
 
+@using LocalTrader.Data.Account
 @using Microsoft.AspNetCore.Http.Features
 @using Microsoft.AspNetCore.Identity
-@using LocalTrader.Data.User
+
 
 @inject UserManager<ApplicationUser> UserManager
 @inject SignInManager<ApplicationUser> SignInManager

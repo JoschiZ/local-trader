@@ -6,7 +6,8 @@ using MudBlazor.Services;
 using LocalTrader.Components;
 using LocalTrader.Components.Account;
 using LocalTrader.Data;
-using LocalTrader.Data.User;
+using LocalTrader.Data.Account;
+
 
 var builder = WebApplication.CreateBuilder(args);
 var services = builder.Services;

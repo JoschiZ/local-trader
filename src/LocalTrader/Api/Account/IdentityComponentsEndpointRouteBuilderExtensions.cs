@@ -2,7 +2,8 @@ using System.Security.Claims;
 using System.Text.Json;
 using LocalTrader.Components.Account.Pages.NotInteractive;
 using LocalTrader.Components.Account.Pages.NotInteractive.Manage;
-using LocalTrader.Data.User;
+using LocalTrader.Data.Account;
+
 using Microsoft.AspNetCore.Antiforgery;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Components.Authorization;

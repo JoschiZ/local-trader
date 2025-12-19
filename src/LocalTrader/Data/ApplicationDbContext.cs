@@ -1,7 +1,8 @@
-using LocalTrader.Data.User;
+using LocalTrader.Data.Account;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
+using UserId = LocalTrader.Data.Account.UserId;
 
 namespace LocalTrader.Data;
 
