@@ -1,20 +1,31 @@
 using FastEndpoints;
+using FastEndpoints.Swagger;
 using LocalTrader.Api.Account;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.EntityFrameworkCore;
 using MudBlazor.Services;
 using LocalTrader.Components;
 using LocalTrader.Components.Account;
 using LocalTrader.Data;
 using LocalTrader.Data.Account;
+using LocalTrader.Shared.Aspire;
+using Scalar.AspNetCore;
 
 
 var builder = WebApplication.CreateBuilder(args);
+
+builder.AddServiceDefaults();
 var services = builder.Services;
 var configuration = builder.Configuration;
 
 
-services.AddFastEndpoints();
+services.AddFastEndpoints(x =>
+    {
+        x.IncludeAbstractValidators = true;
+    })
+    .SwaggerDocument(x =>
+    {
+
+    });
 
 // Add MudBlazor services
 builder.Services.AddMudServices();
@@ -38,11 +49,8 @@ builder.Services.AddAuthentication(options =>
 builder.Services.AddAuthorization();
 builder.Services.AddScoped<IUserClaimsPrincipalFactory<ApplicationUser>, SupplementalClaimsFactory>();
 
-var connectionString = builder.Configuration.GetConnectionString("DefaultConnection") ??
-                       throw new InvalidOperationException("Connection string 'DefaultConnection' not found.");
+builder.AddNpgsqlDbContext<ApplicationDbContext>(Services.LocalTraderDb);
 
-builder.Services.AddDbContext<ApplicationDbContext>(options =>
-    options.UseSqlite(connectionString));
 
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 
@@ -59,6 +67,8 @@ builder.Services.AddSingleton<IEmailSender<ApplicationUser>, IdentityNoOpEmailSe
 
 
 var app = builder.Build();
+
+app.MapDefaultEndpoints();
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
@@ -84,6 +94,23 @@ app.MapRazorComponents<App>()
 // Add additional endpoints required by the Identity /Account Razor components.
 app.MapAdditionalIdentityEndpoints();
 
-app.MapFastEndpoints();
+app.UseFastEndpoints(x =>
+    {
+        x.Endpoints.RoutePrefix = "api";
+        x.Endpoints.ShortNames = true;
+
+        x.Errors.UseProblemDetails(config =>
+        {
+            config.IndicateErrorCode = true;
+        });
+
+        x.Versioning.Prefix = "v";
+        x.Versioning.PrependToRoute = true;
+    })
+    .UseSwaggerGen(x =>
+    {
+        x.Path = "openapi/{documentName}.json";
+    });
+app.MapScalarApiReference();
 
 app.Run();
