@@ -2,9 +2,11 @@ using JetBrains.Annotations;
 using LocalTrader.Api.Account.Collections;
 using LocalTrader.Data.Account;
 using LocalTrader.Data.Cards.Magic;
+using LocalTrader.Generated;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
+using StronglyTypedIds;
 using UserId = LocalTrader.Shared.Api.Account.Users.UserId;
 
 namespace LocalTrader.Data;
@@ -34,7 +36,7 @@ public class TraderContext : IdentityDbContext<User, IdentityRole<UserId>, UserI
     protected override void ConfigureConventions(ModelConfigurationBuilder configurationBuilder)
     {
         base.ConfigureConventions(configurationBuilder);
-        configurationBuilder.Properties<UserId>().HaveConversion<UserId.EfCoreValueConverter>();
+        configurationBuilder.RegisterLocalTraderSharedStronglyTypedIds();
     }
 }
 

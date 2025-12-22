@@ -1,36 +1,51 @@
 ﻿using FastEndpoints;
 using LocalTrader.Api.Cards.Magic;
-using LocalTrader.Components.Account;
 using LocalTrader.Data;
 using LocalTrader.Shared.Api.Account.Collections.Magic;
 using Microsoft.AspNetCore.Http.HttpResults;
+using Microsoft.EntityFrameworkCore;
 
 namespace LocalTrader.Api.Account.Collections.Magic;
 
 
-internal sealed class AddCardEndpoint : Endpoint<AddMagicCardToCollectionRequest, Results<Created, NotFound>>
+internal sealed class AddCardEndpoint : Endpoint<AddMagicCardToCollectionRequest, Results<Created, NotFound, UnauthorizedHttpResult, Conflict>>
 {
     private readonly IMagicCardRepository _magicCardRepository;
-    private readonly IdentityUserAccessor _userAccessor;
     private readonly TraderContext _context;
 
-    public AddCardEndpoint(IMagicCardRepository magicCardRepository, IdentityUserAccessor userAccessor, TraderContext context)
+    public AddCardEndpoint(IMagicCardRepository magicCardRepository, TraderContext context)
     {
         _magicCardRepository = magicCardRepository;
-        _userAccessor = userAccessor;
         _context = context;
     }
 
     public override void Configure()
     {
-        Get("collection/add-card");
+        Put("collection/add-card");
     }
 
-    public override async Task<Results<Created, NotFound>> ExecuteAsync(AddMagicCardToCollectionRequest req, CancellationToken ct)
+    public override async Task<Results<Created, NotFound, UnauthorizedHttpResult, Conflict>> ExecuteAsync(AddMagicCardToCollectionRequest req, CancellationToken ct)
     {
-        var user = await _userAccessor
-            .GetRequiredUserAsync(HttpContext)
+        var userId = HttpContext.GetUserId();
+
+        if (userId is null)
+        {
+            return TypedResults.Unauthorized();
+        }
+
+        var existingCard = await _context
+            .Collections
+            .Magic
+            .Where(x => x.UserId == userId)
+            .Where(x => x.Condition == req.CardCondition)
+            .Where(x => x.Card!.ScryfallId == req.ScryfallId)
+            .AnyAsync(ct)
             .ConfigureAwait(false);
+        
+        if (existingCard)
+        {
+            return TypedResults.Conflict();
+        }
         
         var cardResult = await _magicCardRepository
             .GetCardAsync(req.ScryfallId, ct)
@@ -48,7 +63,7 @@ internal sealed class AddCardEndpoint : Endpoint<AddMagicCardToCollectionRequest
             Name = card.Name,
             Condition = req.CardCondition,
             Quantity = req.Quantity,
-            UserId = user.Id,
+            UserId = userId.Value,
         };
         
         _context
