@@ -1,13 +1,17 @@
 <Solution>
+  <Folder Name="/App/">
+    <Project Path="src/LocalTrader.Client/LocalTrader.Client.csproj" />
+    <Project Path="src/LocalTrader/LocalTrader.csproj" />
+  </Folder>
+  <Folder Name="/Libraries/">
+    <Project Path="src/LocalTrader.Generators/LocalTrader.Generators/LocalTrader.Generators.csproj" />
+    <Project Path="src/LocalTrader.ServiceDefaults/LocalTrader.ServiceDefaults.csproj" />
+    <Project Path="src/ScryfallApi.Client/ScryfallApi.Client.csproj" />
+  </Folder>
   <Folder Name="/ProjectFiles/">
     <File Path=".dockerignore" />
     <File Path=".gitignore" />
   </Folder>
   <Project Path="src/LocalTrader.Shared/LocalTrader.Shared.csproj" />
   <Project Path="src/LocalTrader.AppHost/LocalTrader.AppHost.csproj" />
-  <Project Path="src/LocalTrader.Generators/LocalTrader.Generators/LocalTrader.Generators.csproj" />
-  <Project Path="src/LocalTrader.ServiceDefaults/LocalTrader.ServiceDefaults.csproj" />
-  <Project Path="src/LocalTrader.Client/LocalTrader.Client.csproj" />
-  <Project Path="src/LocalTrader/LocalTrader.csproj" />
-  <Project Path="src/ScryfallApi.Client/ScryfallApi.Client.csproj" />
 </Solution>

@@ -1,4 +1,5 @@
 using LocalTrader.Api.Account.Collections;
+using LocalTrader.Data.Account.Collections;
 using LocalTrader.Shared.Api.Account.Users;
 using Microsoft.AspNetCore.Identity;
 

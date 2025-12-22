@@ -1,6 +1,8 @@
 ﻿using FastEndpoints;
 using LocalTrader.Api.Cards.Magic;
 using LocalTrader.Data;
+using LocalTrader.Data.Account.Collections;
+using LocalTrader.Shared.Api;
 using LocalTrader.Shared.Api.Account.Collections.Magic;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.EntityFrameworkCore;
@@ -21,7 +23,7 @@ internal sealed class AddCardEndpoint : Endpoint<AddMagicCardToCollectionRequest
 
     public override void Configure()
     {
-        Put("collection/add-card");
+        Put(ApiRoutes.Account.Collections.Magic.AddCard);
     }
 
     public override async Task<Results<Created, NotFound, UnauthorizedHttpResult, Conflict>> ExecuteAsync(AddMagicCardToCollectionRequest req, CancellationToken ct)
