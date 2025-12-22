@@ -1,6 +1,6 @@
 ﻿using StronglyTypedIds;
 
-namespace LocalTrader.Data.Account;
+namespace LocalTrader.Shared.Api.Account.Users;
 
 [StronglyTypedId("guid-v7")]
 public readonly partial struct UserId;

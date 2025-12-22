@@ -8,4 +8,5 @@
   <Project Path="LocalTrader.ServiceDefaults/LocalTrader.ServiceDefaults.csproj" />
   <Project Path="src/LocalTrader.Client/LocalTrader.Client.csproj" />
   <Project Path="src/LocalTrader/LocalTrader.csproj" />
+  <Project Path="src/ScryfallApi.Client/ScryfallApi.Client.csproj" />
 </Solution>

@@ -6,13 +6,13 @@ using Microsoft.Extensions.Options;
 
 namespace LocalTrader.Components.Account;
 
-public class SupplementalClaimsFactory : UserClaimsPrincipalFactory<ApplicationUser>
+public class SupplementalClaimsFactory : UserClaimsPrincipalFactory<User>
 {
-    public SupplementalClaimsFactory(UserManager<ApplicationUser> userManager, IOptions<IdentityOptions> optionsAccessor) : base(userManager, optionsAccessor)
+    public SupplementalClaimsFactory(UserManager<User> userManager, IOptions<IdentityOptions> optionsAccessor) : base(userManager, optionsAccessor)
     {
     }
 
-    protected override async Task<ClaimsIdentity> GenerateClaimsAsync(ApplicationUser user)
+    protected override async Task<ClaimsIdentity> GenerateClaimsAsync(User user)
     {
         var identity = await base.GenerateClaimsAsync(user);
         var oldNameClaim = identity.FindFirst(ClaimTypes.Name);

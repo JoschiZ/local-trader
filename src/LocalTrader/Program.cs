@@ -1,6 +1,7 @@
 using FastEndpoints;
 using FastEndpoints.Swagger;
 using LocalTrader.Api.Account;
+using LocalTrader.Api.Cards.Magic;
 using Microsoft.AspNetCore.Identity;
 using MudBlazor.Services;
 using LocalTrader.Components;
@@ -8,14 +9,21 @@ using LocalTrader.Components.Account;
 using LocalTrader.Data;
 using LocalTrader.Data.Account;
 using LocalTrader.Shared.Aspire;
+using Microsoft.EntityFrameworkCore;
 using NSwag;
 using Scalar.AspNetCore;
+using ScryfallApi.Client;
 
 
 var builder = WebApplication.CreateBuilder(args);
 
 builder.AddServiceDefaults();
 var services = builder.Services;
+
+
+services.AddScoped<IMagicCardRepository, MagicCardRepository>();
+services.AddScryfallApiClient();
+
 
 services.AddFastEndpoints(x =>
     {
@@ -59,23 +67,23 @@ builder
     })
     .AddIdentityCookies();
 builder.Services.AddAuthorization();
-builder.Services.AddScoped<IUserClaimsPrincipalFactory<ApplicationUser>, SupplementalClaimsFactory>();
+builder.Services.AddScoped<IUserClaimsPrincipalFactory<User>, SupplementalClaimsFactory>();
 
-builder.AddNpgsqlDbContext<ApplicationDbContext>(Services.LocalTraderDb);
+builder.AddNpgsqlDbContext<TraderContext>(Services.LocalTraderDb);
 
 
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 
-builder.Services.AddIdentityCore<ApplicationUser>(options =>
+builder.Services.AddIdentityCore<User>(options =>
     {
         options.SignIn.RequireConfirmedAccount = true;
         options.Stores.SchemaVersion = IdentitySchemaVersions.Version3;
     })
-    .AddEntityFrameworkStores<ApplicationDbContext>()
+    .AddEntityFrameworkStores<TraderContext>()
     .AddSignInManager()
     .AddDefaultTokenProviders();
 
-builder.Services.AddSingleton<IEmailSender<ApplicationUser>, IdentityNoOpEmailSender>();
+builder.Services.AddSingleton<IEmailSender<User>, IdentityNoOpEmailSender>();
 
 
 var app = builder.Build();
@@ -124,5 +132,12 @@ app.UseFastEndpoints(x =>
         x.Path = "openapi/{documentName}.json";
     });
 app.MapScalarApiReference();
+
+if (app.Environment.IsDevelopment())
+{
+    using var scope = app.Services.CreateScope();
+    var db = scope.ServiceProvider.GetRequiredService<TraderContext>();
+    await db.Database.MigrateAsync().ConfigureAwait(false);
+}
 
 app.Run();

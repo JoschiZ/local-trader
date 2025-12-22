@@ -1,0 +1,18 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net10.0</TargetFramework>
+    <ImplicitUsings>true</ImplicitUsings>
+    <PackageId>ScryfallAPI.Client</PackageId>
+    <PackageTags>scryfall scryfall-api</PackageTags>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+  
+
+  <ItemGroup>
+    <PackageReference Include="System.Text.Json" Version="9.0.9" />
+    <PackageReference Include="Microsoft.Extensions.Caching.Memory" Version="9.0.9" />
+    <PackageReference Include="Microsoft.Extensions.Http" Version="9.0.9" />
+  </ItemGroup>
+
+</Project>

@@ -3,10 +3,10 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace LocalTrader.Data.Account;
 
-internal sealed class ApplicationUserConfiguration : IEntityTypeConfiguration<ApplicationUser>
+internal sealed class ApplicationUserConfiguration : IEntityTypeConfiguration<User>
 {
-    public void Configure(EntityTypeBuilder<ApplicationUser> builder)
+    public void Configure(EntityTypeBuilder<User> builder)
     {
-        builder.Property(x => x.DisplayName).HasMaxLength(ApplicationUser.DisplayNameMaxLength).IsRequired();
+        builder.Property(x => x.DisplayName).HasMaxLength(User.DisplayNameMaxLength).IsRequired();
     }
 }

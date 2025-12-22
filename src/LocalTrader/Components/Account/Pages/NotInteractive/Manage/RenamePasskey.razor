@@ -6,7 +6,7 @@
 @using LocalTrader.Data.Account
 
 
-@inject UserManager<ApplicationUser> UserManager
+@inject UserManager<User> UserManager
 @inject IdentityRedirectManager RedirectManager
 
 <EditForm Model="Input" OnValidSubmit="Rename" FormName="rename-passkey" method="post">
@@ -31,7 +31,7 @@
 </EditForm>
 
 @code {
-    private ApplicationUser? _user;
+    private User? _user;
     private UserPasskeyInfo? _passkey;
 
     [CascadingParameter] private HttpContext HttpContext { get; set; } = null!;

@@ -5,12 +5,14 @@ using Microsoft.AspNetCore.Identity;
 namespace LocalTrader.Components.Account;
 
 internal sealed class IdentityUserAccessor(
-    UserManager<ApplicationUser> userManager,
+    UserManager<User> userManager,
     IdentityRedirectManager redirectManager)
 {
-    public async Task<ApplicationUser> GetRequiredUserAsync(HttpContext context)
+    public async Task<User> GetRequiredUserAsync(HttpContext context)
     {
-        var user = await userManager.GetUserAsync(context.User);
+        var user = await userManager
+            .GetUserAsync(context.User)
+            .ConfigureAwait(false);
 
         if (user is null)
         {

@@ -29,50 +29,8 @@
         </PackageReference>
         <PackageReference Include="Extensions.MudBlazor.StaticInput" Version="3.2.1" />
         <ProjectReference Include="..\LocalTrader.Shared\LocalTrader.Shared.csproj" />
+        <ProjectReference Include="..\ScryfallApi.Client\ScryfallApi.Client.csproj" />
     </ItemGroup>
 
-
-    <ItemGroup>
-      <AdditionalFiles Include="Components\Account\Pages\NotInteractive\Manage\ChangePassword.razor" />
-      <AdditionalFiles Include="Components\Account\Pages\NotInteractive\Manage\DeletePersonalData.razor" />
-      <AdditionalFiles Include="Components\Account\Pages\NotInteractive\Manage\Disable2fa.razor" />
-      <AdditionalFiles Include="Components\Account\Pages\NotInteractive\Manage\Email.razor" />
-      <AdditionalFiles Include="Components\Account\Pages\NotInteractive\Manage\EnableAuthenticator.razor" />
-      <AdditionalFiles Include="Components\Account\Pages\NotInteractive\Manage\ExternalLogins.razor" />
-      <AdditionalFiles Include="Components\Account\Pages\NotInteractive\Manage\GenerateRecoveryCodes.razor" />
-      <AdditionalFiles Include="Components\Account\Pages\NotInteractive\Manage\Index.razor" />
-      <AdditionalFiles Include="Components\Account\Pages\NotInteractive\Manage\Passkeys.razor" />
-      <AdditionalFiles Include="Components\Account\Pages\NotInteractive\Manage\PersonalData.razor" />
-      <AdditionalFiles Include="Components\Account\Pages\NotInteractive\Manage\RenamePasskey.razor" />
-      <AdditionalFiles Include="Components\Account\Pages\NotInteractive\Manage\ResetAuthenticator.razor" />
-      <AdditionalFiles Include="Components\Account\Pages\NotInteractive\Manage\SetPassword.razor" />
-      <AdditionalFiles Include="Components\Account\Pages\NotInteractive\Manage\TwoFactorAuthentication.razor" />
-      <AdditionalFiles Include="Components\Account\Pages\NotInteractive\Manage\_Imports.razor" />
-      <AdditionalFiles Include="guid-v7.typedid" />
-    </ItemGroup>
-
-
-    <ItemGroup>
-      <_ContentIncludedByDefault Remove="Components\Account\Pages\Manage\ChangePassword.razor" />
-      <_ContentIncludedByDefault Remove="Components\Account\Pages\Manage\DeletePersonalData.razor" />
-      <_ContentIncludedByDefault Remove="Components\Account\Pages\Manage\Disable2fa.razor" />
-      <_ContentIncludedByDefault Remove="Components\Account\Pages\Manage\Email.razor" />
-      <_ContentIncludedByDefault Remove="Components\Account\Pages\Manage\EnableAuthenticator.razor" />
-      <_ContentIncludedByDefault Remove="Components\Account\Pages\Manage\ExternalLogins.razor" />
-      <_ContentIncludedByDefault Remove="Components\Account\Pages\Manage\GenerateRecoveryCodes.razor" />
-      <_ContentIncludedByDefault Remove="Components\Account\Pages\Manage\Index.razor" />
-      <_ContentIncludedByDefault Remove="Components\Account\Pages\Manage\Passkeys.razor" />
-      <_ContentIncludedByDefault Remove="Components\Account\Pages\Manage\PersonalData.razor" />
-      <_ContentIncludedByDefault Remove="Components\Account\Pages\Manage\RenamePasskey.razor" />
-      <_ContentIncludedByDefault Remove="Components\Account\Pages\Manage\ResetAuthenticator.razor" />
-      <_ContentIncludedByDefault Remove="Components\Account\Pages\Manage\SetPassword.razor" />
-      <_ContentIncludedByDefault Remove="Components\Account\Pages\Manage\TwoFactorAuthentication.razor" />
-      <_ContentIncludedByDefault Remove="Components\Account\Pages\Manage\_Imports.razor" />
-    </ItemGroup>
-
-
-    <ItemGroup>
-      <Folder Include="Data\Migrations\" />
-    </ItemGroup>
 
 </Project>

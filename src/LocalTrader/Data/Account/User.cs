@@ -1,19 +1,22 @@
+using LocalTrader.Api.Account.Collections;
+using LocalTrader.Shared.Api.Account.Users;
 using Microsoft.AspNetCore.Identity;
 
 namespace LocalTrader.Data.Account;
 
 // Add profile data for application users by adding properties to the ApplicationUser class
-public class ApplicationUser : IdentityUser<UserId>
+public class User : IdentityUser<UserId>
 {
-    private ApplicationUser(){}
+    private User(){}
     
     public const int DisplayNameMaxLength = 40;
     public const int DisplayNameMinLength = 5;
-    public required string DisplayName { get; set; }
+    public required string DisplayName { get; init; }
+    public List<CollectionCard> Collection { get; init; } = [];
 
-    public static ApplicationUser Create(string displayName)
+    public static User Create(string displayName)
     {
-        return new ApplicationUser()
+        return new User()
         {
             Id = UserId.New(),
             DisplayName = displayName

@@ -3,7 +3,7 @@
 @using Microsoft.AspNetCore.Identity
 
 
-@inject SignInManager<ApplicationUser> SignInManager
+@inject SignInManager<User> SignInManager
 @inject IdentityRedirectManager RedirectManager
 
 @if (_externalLogins.Length == 0)
