@@ -3,11 +3,10 @@ using LocalTrader.Api.Account.Collections;
 using LocalTrader.Data.Account;
 using LocalTrader.Data.Cards.Magic;
 using LocalTrader.Generated;
+using LocalTrader.Shared.Api.Account.Users;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
-using StronglyTypedIds;
-using UserId = LocalTrader.Shared.Api.Account.Users.UserId;
 
 namespace LocalTrader.Data;
 

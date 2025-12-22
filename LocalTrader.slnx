@@ -4,9 +4,9 @@
     <File Path=".gitignore" />
   </Folder>
   <Project Path="src/LocalTrader.Shared/LocalTrader.Shared.csproj" />
-  <Project Path="LocalTrader.AppHost/LocalTrader.AppHost.csproj" />
-  <Project Path="LocalTrader.Generators/LocalTrader.Generators/LocalTrader.Generators.csproj" />
-  <Project Path="LocalTrader.ServiceDefaults/LocalTrader.ServiceDefaults.csproj" />
+  <Project Path="src/LocalTrader.AppHost/LocalTrader.AppHost.csproj" />
+  <Project Path="src/LocalTrader.Generators/LocalTrader.Generators/LocalTrader.Generators.csproj" />
+  <Project Path="src/LocalTrader.ServiceDefaults/LocalTrader.ServiceDefaults.csproj" />
   <Project Path="src/LocalTrader.Client/LocalTrader.Client.csproj" />
   <Project Path="src/LocalTrader/LocalTrader.csproj" />
   <Project Path="src/ScryfallApi.Client/ScryfallApi.Client.csproj" />
