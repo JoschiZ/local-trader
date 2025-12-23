@@ -6,12 +6,23 @@ public static class ApiRoutes
     {
         public static class Collections
         {
+            public const string DeleteCard = "collections/cards/{cardId}";
+            public const string UpdateCard = "collections/cards/{cardId}";
+
             public static class Magic
             {
                 public const string AddCard = "collections/magic/cards";
             }
-            public const string DeleteCard = "collections/cards/{cardId}";
-            public const string UpdateCard = "collections/cards/{cardId}";
+        }
+
+        public static class WantLists
+        {
+            public const string Create = "want-lists";
+            public const string GetForUser = "want-lists/{userId}";
+            public const string GetMany = "want-lists";
+            public const string Delete = "want-lists/{wantListId}";
+            public const string Get = "want-lists/{wantListId}";
+            public const string Update = "want-lists/{wantListId}";
         }
     }
 }

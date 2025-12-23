@@ -1,5 +1,6 @@
 using LocalTrader.Api.Account.Collections;
 using LocalTrader.Data.Account.Collections;
+using LocalTrader.Data.Account.Wants.Lists;
 using LocalTrader.Shared.Api.Account.Users;
 using Microsoft.AspNetCore.Identity;
 
@@ -14,6 +15,7 @@ public class User : IdentityUser<UserId>
     public const int DisplayNameMinLength = 5;
     public required string DisplayName { get; init; }
     public List<CollectionCard> Collection { get; init; } = [];
+    public List<WantList> WantLists { get; init; } = [];
 
     public static User Create(string displayName)
     {

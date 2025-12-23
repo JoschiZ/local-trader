@@ -1,19 +1,22 @@
 using FastEndpoints;
+using FastEndpoints.ClientGen.Kiota;
 using FastEndpoints.Swagger;
+using Kiota.Builder;
 using LocalTrader.Api.Account;
 using LocalTrader.Api.Cards.Magic;
-using Microsoft.AspNetCore.Identity;
-using MudBlazor.Services;
 using LocalTrader.Components;
 using LocalTrader.Components.Account;
 using LocalTrader.Data;
 using LocalTrader.Data.Account;
+using LocalTrader.ServiceDefaults;
 using LocalTrader.Shared.Aspire;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using MudBlazor.Services;
 using NSwag;
 using Scalar.AspNetCore;
 using ScryfallApi.Client;
-
+using _Imports = LocalTrader.Client._Imports;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -25,10 +28,7 @@ services.AddScoped<IMagicCardRepository, MagicCardRepository>();
 services.AddScryfallApiClient();
 
 
-services.AddFastEndpoints(x =>
-    {
-        x.IncludeAbstractValidators = true;
-    })
+services.AddFastEndpoints(x => { x.IncludeAbstractValidators = true; })
     .SwaggerDocument(x =>
     {
         x.EnableJWTBearerAuth = false;
@@ -42,7 +42,6 @@ services.AddFastEndpoints(x =>
                 Name = ".AspNetCore.Identity.Application"
             });
         };
-        
     });
 
 // Add MudBlazor services
@@ -98,7 +97,7 @@ if (app.Environment.IsDevelopment())
 }
 else
 {
-    app.UseExceptionHandler("/Error", createScopeForErrors: true);
+    app.UseExceptionHandler("/Error", true);
     // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
     app.UseHsts();
 }
@@ -109,7 +108,7 @@ app.UseAntiforgery();
 app.MapStaticAssets();
 app.MapRazorComponents<App>()
     .AddInteractiveWebAssemblyRenderMode()
-    .AddAdditionalAssemblies(typeof(LocalTrader.Client._Imports).Assembly);
+    .AddAdditionalAssemblies(typeof(_Imports).Assembly);
 
 // Add additional endpoints required by the Identity /Account Razor components.
 app.MapAdditionalIdentityEndpoints();
@@ -119,18 +118,23 @@ app.UseFastEndpoints(x =>
         x.Endpoints.RoutePrefix = "api";
         x.Endpoints.ShortNames = true;
 
-        x.Errors.UseProblemDetails(config =>
-        {
-            config.IndicateErrorCode = true;
-        });
+        x.Errors.UseProblemDetails(config => { config.IndicateErrorCode = true; });
 
         x.Versioning.Prefix = "v";
         x.Versioning.PrependToRoute = true;
     })
-    .UseSwaggerGen(x =>
-    {
-        x.Path = "openapi/{documentName}.json";
-    });
+    .UseSwaggerGen(x => { x.Path = "openapi/{documentName}.json"; });
+await app.GenerateApiClientsAndExitAsync(x =>
+{
+    x.SwaggerDocumentName = "v1";
+    x.Language = GenerationLanguage.CSharp;
+    x.CleanOutput = true;
+    x.ClientClassName = "TraderClient";
+    x.ClientNamespaceName = "LocalTrader.Client";
+    x.OutputPath = Path.Combine(Directory.GetParent(Environment.CurrentDirectory)?.Parent?.Parent?.Parent?.FullName 
+                                ?? throw new InvalidOperationException(), "LocalTrader.Client", "ApiClients");
+}).ConfigureAwait(false);
+
 app.MapScalarApiReference();
 
 if (app.Environment.IsDevelopment())

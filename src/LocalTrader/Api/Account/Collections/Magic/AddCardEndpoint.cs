@@ -9,11 +9,11 @@ using Microsoft.EntityFrameworkCore;
 
 namespace LocalTrader.Api.Account.Collections.Magic;
 
-
-internal sealed class AddCardEndpoint : Endpoint<AddMagicCardToCollectionRequest, Results<Created, NotFound, UnauthorizedHttpResult, Conflict>>
+internal sealed class AddCardEndpoint : Endpoint<AddMagicCardToCollectionRequest,
+    Results<Created, NotFound, UnauthorizedHttpResult, Conflict>>
 {
-    private readonly IMagicCardRepository _magicCardRepository;
     private readonly TraderContext _context;
+    private readonly IMagicCardRepository _magicCardRepository;
 
     public AddCardEndpoint(IMagicCardRepository magicCardRepository, TraderContext context)
     {
@@ -26,14 +26,12 @@ internal sealed class AddCardEndpoint : Endpoint<AddMagicCardToCollectionRequest
         Put(ApiRoutes.Account.Collections.Magic.AddCard);
     }
 
-    public override async Task<Results<Created, NotFound, UnauthorizedHttpResult, Conflict>> ExecuteAsync(AddMagicCardToCollectionRequest req, CancellationToken ct)
+    public override async Task<Results<Created, NotFound, UnauthorizedHttpResult, Conflict>> ExecuteAsync(
+        AddMagicCardToCollectionRequest req, CancellationToken ct)
     {
         var userId = HttpContext.GetUserId();
 
-        if (userId is null)
-        {
-            return TypedResults.Unauthorized();
-        }
+        if (userId is null) return TypedResults.Unauthorized();
 
         var existingCard = await _context
             .Collections
@@ -43,31 +41,24 @@ internal sealed class AddCardEndpoint : Endpoint<AddMagicCardToCollectionRequest
             .Where(x => x.Card!.ScryfallId == req.ScryfallId)
             .AnyAsync(ct)
             .ConfigureAwait(false);
-        
-        if (existingCard)
-        {
-            return TypedResults.Conflict();
-        }
-        
+
+        if (existingCard) return TypedResults.Conflict();
+
         var cardResult = await _magicCardRepository
             .GetCardAsync(req.ScryfallId, ct)
             .ConfigureAwait(false);
 
-        if (cardResult.IsFailure)
-        {
-            return TypedResults.NotFound();
-        }
+        if (cardResult.IsFailure) return TypedResults.NotFound();
         var card = cardResult.Value;
 
         var collectionCard = new CollectionMagicCard
         {
             CardId = card.Id,
-            Name = card.Name,
             Condition = req.CardCondition,
             Quantity = req.Quantity,
-            UserId = userId.Value,
+            UserId = userId.Value
         };
-        
+
         _context
             .Collections
             .Magic
@@ -76,7 +67,7 @@ internal sealed class AddCardEndpoint : Endpoint<AddMagicCardToCollectionRequest
         await _context
             .SaveChangesAsync(ct)
             .ConfigureAwait(false);
-        
+
         return TypedResults.Created();
     }
 }

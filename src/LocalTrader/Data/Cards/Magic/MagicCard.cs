@@ -20,7 +20,7 @@ internal sealed class MagicCardConfiguration : IEntityTypeConfiguration<MagicCar
 {
     public void Configure(EntityTypeBuilder<MagicCard> builder)
     {
-        builder.ToTable("Magic", "Cards");
+        builder.ToTable("Magic", Schemas.Cards);
         builder.HasKey(x => x.Id);
         builder.Property(x => x.Id).ValueGeneratedOnAdd();
         builder.Property(x => x.Name).IsRequired().HasMaxLength(100);

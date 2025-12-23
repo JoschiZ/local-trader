@@ -2,6 +2,8 @@ using JetBrains.Annotations;
 using LocalTrader.Api.Account.Collections;
 using LocalTrader.Data.Account;
 using LocalTrader.Data.Account.Collections;
+using LocalTrader.Data.Account.Wants.Cards;
+using LocalTrader.Data.Account.Wants.Lists;
 using LocalTrader.Data.Cards.Magic;
 using LocalTrader.Generated;
 using LocalTrader.Shared.Api.Account.Users;
@@ -18,14 +20,18 @@ public class TraderContext : IdentityDbContext<User, IdentityRole<UserId>, UserI
     {
         Collections = new CollectionsSet(this);
         Cards = new CardsSet(this);
+        Wants = new WantsSet(this);
     }
     public CardsSet Cards { get; }
+    public WantsSet Wants { get; }
     public CollectionsSet Collections { get; }
     
     
     public DbSet<MagicCard> MagicCards { get; private init; }
     public DbSet<CollectionCard> AllCollectionCards { get; private init; }
     public DbSet<CollectionMagicCard> CollectionMagicCards { get; private init; }
+    public DbSet<WantList> WantLists { get; private init; }
+    public DbSet<WantedCard> WantedCards { get; private init; }
 
     protected override void OnModelCreating(ModelBuilder builder)
     {
@@ -38,6 +44,16 @@ public class TraderContext : IdentityDbContext<User, IdentityRole<UserId>, UserI
         base.ConfigureConventions(configurationBuilder);
         configurationBuilder.RegisterLocalTraderSharedStronglyTypedIds();
     }
+}
+
+public class WantsSet : DbSubset
+{
+    public WantsSet(TraderContext context) : base(context)
+    {
+    }
+    
+    public DbSet<WantList> Lists => Context.WantLists;
+    
 }
 
 public abstract class DbSubset
