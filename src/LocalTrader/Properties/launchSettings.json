@@ -20,6 +20,15 @@
         "environmentVariables": {
           "ASPNETCORE_ENVIRONMENT": "Development"
         }
+      },
+      "generate-clients": {
+        "commandName": "Project",
+        "dotnetRunMessages": true,
+        "commandLineArgs": "--generateclients true",
+        "environmentVariables": {
+          "ASPNETCORE_ENVIRONMENT": "Development",
+          "ConnectionStrings__local-trader": "DummyConnectionString"
+        }
       }
     }
   }

@@ -18,7 +18,7 @@ async function fetchWithErrorHandling(url, options = {}) {
 }
 
 async function createCredential(headers, signal) {
-    const optionsResponse = await fetchWithErrorHandling('/Account/PasskeyCreationOptions', {
+    const optionsResponse = await fetchWithErrorHandling('api/Account/PasskeyCreationOptions', {
         method: 'POST',
         headers,
         signal,
@@ -29,7 +29,7 @@ async function createCredential(headers, signal) {
 }
 
 async function requestCredential(email, mediation, headers, signal) {
-    const optionsResponse = await fetchWithErrorHandling(`/Account/PasskeyRequestOptions?username=${email}`, {
+    const optionsResponse = await fetchWithErrorHandling(`api/Account/PasskeyRequestOptions?username=${email}`, {
         method: 'POST',
         headers,
         signal,

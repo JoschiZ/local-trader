@@ -1,3 +1,4 @@
+using System.Text.Json.Serialization;
 using FastEndpoints;
 using FastEndpoints.ClientGen.Kiota;
 using FastEndpoints.Swagger;
@@ -41,7 +42,14 @@ services.AddFastEndpoints(x => { x.IncludeAbstractValidators = true; })
                 In = OpenApiSecurityApiKeyLocation.Cookie,
                 Name = ".AspNetCore.Identity.Application"
             });
+            settings.DocumentName = "v1";
         };
+
+        x.SerializerSettings = settings =>
+        {
+            settings.Converters.Add(new JsonStringEnumConverter());
+        };
+
     });
 
 // Add MudBlazor services
@@ -122,17 +130,21 @@ app.UseFastEndpoints(x =>
 
         x.Versioning.Prefix = "v";
         x.Versioning.PrependToRoute = true;
+
+        x.Serializer.Options.Converters.Add(new JsonStringEnumConverter());
     })
     .UseSwaggerGen(x => { x.Path = "openapi/{documentName}.json"; });
 await app.GenerateApiClientsAndExitAsync(x =>
 {
+    var outputPath = Path.Combine(Directory.GetParent(Environment.CurrentDirectory)?.FullName 
+                 ?? throw new InvalidOperationException(), "LocalTrader.Client", "ApiClients");
     x.SwaggerDocumentName = "v1";
     x.Language = GenerationLanguage.CSharp;
     x.CleanOutput = true;
     x.ClientClassName = "TraderClient";
     x.ClientNamespaceName = "LocalTrader.Client";
-    x.OutputPath = Path.Combine(Directory.GetParent(Environment.CurrentDirectory)?.Parent?.Parent?.Parent?.FullName 
-                                ?? throw new InvalidOperationException(), "LocalTrader.Client", "ApiClients");
+    x.OutputPath = outputPath;
+    x.ExcludeBackwardCompatible = true;
 }).ConfigureAwait(false);
 
 app.MapScalarApiReference();
