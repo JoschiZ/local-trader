@@ -1,12 +1,10 @@
 using JetBrains.Annotations;
-using LocalTrader.Api.Account.Collections;
 using LocalTrader.Data.Account;
-using LocalTrader.Data.Account.Collections;
-using LocalTrader.Data.Account.Wants.Cards;
-using LocalTrader.Data.Account.Wants.Lists;
-using LocalTrader.Data.Cards.Magic;
+using LocalTrader.Data.Account.Wants;
+using LocalTrader.Data.Magic;
 using LocalTrader.Generated;
 using LocalTrader.Shared.Api.Account.Users;
+using LocalTrader.Shared.Data.Account;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
@@ -18,21 +16,15 @@ public class TraderContext : IdentityDbContext<User, IdentityRole<UserId>, UserI
 {
     public TraderContext(DbContextOptions<TraderContext> options) : base(options)
     {
-        Collections = new CollectionsSet(this);
-        Cards = new CardsSet(this);
-        Wants = new WantsSet(this);
+        Magic = new MagicSet(this);
     }
-    public CardsSet Cards { get; }
-    public WantsSet Wants { get; }
-    public CollectionsSet Collections { get; }
-    
-    
-    public DbSet<MagicCard> MagicCards { get; private init; }
-    public DbSet<CollectionCard> AllCollectionCards { get; private init; }
-    public DbSet<CollectionMagicCard> CollectionMagicCards { get; private init; }
-    public DbSet<WantList> WantLists { get; private init; }
-    public DbSet<WantedCard> WantedCards { get; private init; }
-    public DbSet<WantedMagicCard> WantedMagicCard { get; private init; }
+
+    public MagicSet Magic { get; }
+    internal DbSet<CollectionMagicCard> CollectionMagicCards { get; init; }
+    internal DbSet<WantedMagicCard> WantedMagicCards { get; init; }
+    internal DbSet<MagicWantList> MagicWantLists { get; init; }
+    internal DbSet<MagicCard> MagicCards { get; init; }
+
 
     protected override void OnModelCreating(ModelBuilder builder)
     {
@@ -47,16 +39,6 @@ public class TraderContext : IdentityDbContext<User, IdentityRole<UserId>, UserI
     }
 }
 
-public class WantsSet : DbSubset
-{
-    public WantsSet(TraderContext context) : base(context)
-    {
-    }
-    
-    public DbSet<WantList> Lists => Context.WantLists;
-    public DbSet<WantedMagicCard> WantedMagicCards => Context.WantedMagicCard;
-    public DbSet<WantedCard> WantedCards => Context.WantedCards;
-}
 
 public abstract class DbSubset
 {
@@ -65,23 +47,17 @@ public abstract class DbSubset
         Context = context;
     }
 
-    protected TraderContext Context { get; init; }
+    protected TraderContext Context { get; }
 }
 
-public sealed class CardsSet : DbSubset
+public sealed class MagicSet : DbSubset
 {
-    public CardsSet(TraderContext context) : base(context)
+    public MagicSet(TraderContext context) : base(context)
     {
     }
 
-    public DbSet<MagicCard> Magic => Context.MagicCards;
-}
-
-public sealed class CollectionsSet : DbSubset
-{
-    public DbSet<CollectionCard> All => Context.AllCollectionCards;
-    public DbSet<CollectionMagicCard> Magic => Context.CollectionMagicCards;
-    public CollectionsSet(TraderContext context) : base(context)
-    {
-    }
+    public DbSet<CollectionMagicCard> Collections => Context.CollectionMagicCards;
+    public DbSet<WantedMagicCard> WantedCards => Context.WantedMagicCards;
+    public DbSet<MagicWantList> WantLists => Context.MagicWantLists;
+    public DbSet<MagicCard> Cards => Context.MagicCards;
 }

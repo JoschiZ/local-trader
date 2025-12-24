@@ -22,4 +22,8 @@
       <ProjectReference Include="..\LocalTrader.Generators\LocalTrader.Generators\LocalTrader.Generators.csproj"  OutputItemType="Analyzer" ReferenceOutputAssembly="false"/>
     </ItemGroup>
 
+    <ItemGroup>
+      <Folder Include="Api\Account\" />
+    </ItemGroup>
+
 </Project>

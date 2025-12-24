@@ -2,7 +2,7 @@ using System.Text.Json.Serialization;
 using FastEndpoints;
 using FastEndpoints.Swagger;
 using LocalTrader.Api.Account;
-using LocalTrader.Api.Cards.Magic;
+using LocalTrader.Api.Magic;
 using LocalTrader.Components;
 using LocalTrader.Components.Account;
 using LocalTrader.Data;

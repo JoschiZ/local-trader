@@ -1,7 +1,7 @@
-using LocalTrader.Api.Account.Collections;
-using LocalTrader.Data.Account.Collections;
-using LocalTrader.Data.Account.Wants.Lists;
+using LocalTrader.Data.Account.Wants;
+using LocalTrader.Data.Magic;
 using LocalTrader.Shared.Api.Account.Users;
+using LocalTrader.Shared.Data.Account;
 using Microsoft.AspNetCore.Identity;
 
 namespace LocalTrader.Data.Account;
@@ -14,12 +14,13 @@ public class User : IdentityUser<UserId>
     public const int DisplayNameMaxLength = 40;
     public const int DisplayNameMinLength = 5;
     public required string DisplayName { get; init; }
-    public List<CollectionCard> Collection { get; init; } = [];
-    public List<WantList> WantLists { get; init; } = [];
+    
+    public List<MagicWantList> MagicWantLists { get; init; } = [];
+    public List<CollectionMagicCard> MagicCollection { get; set; } = [];
 
     public static User Create(string displayName)
     {
-        return new User()
+        return new User
         {
             Id = UserId.New(),
             DisplayName = displayName
