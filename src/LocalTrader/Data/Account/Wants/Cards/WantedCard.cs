@@ -12,9 +12,6 @@ public abstract class WantedCard
 {
     public WantedCardId Id { get; private init; }
     
-    public required UserId UserId { get; init; }
-    public User? User { get; init; }
-    
     public required WantListId WantListId { get; init; }
     public WantList? WantList { get; init; }
     

@@ -32,6 +32,7 @@ public class TraderContext : IdentityDbContext<User, IdentityRole<UserId>, UserI
     public DbSet<CollectionMagicCard> CollectionMagicCards { get; private init; }
     public DbSet<WantList> WantLists { get; private init; }
     public DbSet<WantedCard> WantedCards { get; private init; }
+    public DbSet<WantedMagicCard> WantedMagicCard { get; private init; }
 
     protected override void OnModelCreating(ModelBuilder builder)
     {
@@ -53,7 +54,8 @@ public class WantsSet : DbSubset
     }
     
     public DbSet<WantList> Lists => Context.WantLists;
-    
+    public DbSet<WantedMagicCard> WantedMagicCards => Context.WantedMagicCard;
+    public DbSet<WantedCard> WantedCards => Context.WantedCards;
 }
 
 public abstract class DbSubset

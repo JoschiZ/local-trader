@@ -1,8 +1,6 @@
 using System.Text.Json.Serialization;
 using FastEndpoints;
-using FastEndpoints.ClientGen.Kiota;
 using FastEndpoints.Swagger;
-using Kiota.Builder;
 using LocalTrader.Api.Account;
 using LocalTrader.Api.Cards.Magic;
 using LocalTrader.Components;
@@ -17,7 +15,6 @@ using MudBlazor.Services;
 using NSwag;
 using Scalar.AspNetCore;
 using ScryfallApi.Client;
-using _Imports = LocalTrader.Client._Imports;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -44,12 +41,6 @@ services.AddFastEndpoints(x => { x.IncludeAbstractValidators = true; })
             });
             settings.DocumentName = "v1";
         };
-
-        x.SerializerSettings = settings =>
-        {
-            settings.Converters.Add(new JsonStringEnumConverter());
-        };
-
     });
 
 // Add MudBlazor services
@@ -76,7 +67,17 @@ builder
 builder.Services.AddAuthorization();
 builder.Services.AddScoped<IUserClaimsPrincipalFactory<User>, SupplementalClaimsFactory>();
 
-builder.AddNpgsqlDbContext<TraderContext>(Services.LocalTraderDb);
+builder.AddNpgsqlDbContext<TraderContext>(Services.LocalTraderDb, x =>
+{
+    
+}, optionsBuilder =>
+{
+    if (builder.Environment.IsDevelopment())
+    {
+        optionsBuilder.EnableSensitiveDataLogging();
+        optionsBuilder.EnableDetailedErrors();
+    }
+});
 
 
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();
@@ -130,22 +131,8 @@ app.UseFastEndpoints(x =>
 
         x.Versioning.Prefix = "v";
         x.Versioning.PrependToRoute = true;
-
-        x.Serializer.Options.Converters.Add(new JsonStringEnumConverter());
     })
     .UseSwaggerGen(x => { x.Path = "openapi/{documentName}.json"; });
-await app.GenerateApiClientsAndExitAsync(x =>
-{
-    var outputPath = Path.Combine(Directory.GetParent(Environment.CurrentDirectory)?.FullName 
-                 ?? throw new InvalidOperationException(), "LocalTrader.Client", "ApiClients");
-    x.SwaggerDocumentName = "v1";
-    x.Language = GenerationLanguage.CSharp;
-    x.CleanOutput = true;
-    x.ClientClassName = "TraderClient";
-    x.ClientNamespaceName = "LocalTrader.Client";
-    x.OutputPath = outputPath;
-    x.ExcludeBackwardCompatible = true;
-}).ConfigureAwait(false);
 
 app.MapScalarApiReference();
 
@@ -156,4 +143,4 @@ if (app.Environment.IsDevelopment())
     await db.Database.MigrateAsync().ConfigureAwait(false);
 }
 
-app.Run();
+await app.RunAsync().ConfigureAwait(false);

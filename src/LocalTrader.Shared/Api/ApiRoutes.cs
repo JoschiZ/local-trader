@@ -18,11 +18,21 @@ public static class ApiRoutes
         public static class WantLists
         {
             public const string Create = "want-lists";
-            public const string GetForUser = "want-lists/{userId}";
-            public const string GetMany = "want-lists";
             public const string Delete = "want-lists/{wantListId}";
             public const string Get = "want-lists/{wantListId}";
             public const string Update = "want-lists/{wantListId}";
+            
+            public static class Cards
+            {
+                public const string Remove = "want-lists/cards/{wantedCardId}";
+                public const string UpdateCard = "want-lists/cards/{wantedCardId}";
+                public static class Magic
+                {
+                    public const string Add = "want-lists/{wantListId}/magic";
+                }
+            }
+
+            
         }
     }
 }
