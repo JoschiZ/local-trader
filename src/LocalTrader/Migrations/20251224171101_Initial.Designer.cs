@@ -9,10 +9,10 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 #nullable disable
 
-namespace LocalTrader.Data.Migrations
+namespace LocalTrader.Migrations
 {
     [DbContext(typeof(TraderContext))]
-    [Migration("20251219211221_Initial")]
+    [Migration("20251224171101_Initial")]
     partial class Initial
     {
         /// <inheritdoc />
@@ -25,7 +25,7 @@ namespace LocalTrader.Data.Migrations
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
 
-            modelBuilder.Entity("LocalTrader.Data.Account.ApplicationUser", b =>
+            modelBuilder.Entity("LocalTrader.Data.Account.User", b =>
                 {
                     b.Property<Guid>("Id")
                         .HasColumnType("uuid");
@@ -95,7 +95,117 @@ namespace LocalTrader.Data.Migrations
                     b.ToTable("AspNetUsers", (string)null);
                 });
 
-            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole<LocalTrader.Data.Account.UserId>", b =>
+            modelBuilder.Entity("LocalTrader.Data.Magic.CollectionMagicCard", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<int>("CardId")
+                        .HasColumnType("integer");
+
+                    b.Property<int>("Condition")
+                        .HasColumnType("integer");
+
+                    b.Property<int>("Quantity")
+                        .HasColumnType("integer");
+
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("uuid");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CardId");
+
+                    b.HasIndex("UserId", "CardId", "Condition")
+                        .IsUnique();
+
+                    b.ToTable("CollectionCards", "Magic");
+                });
+
+            modelBuilder.Entity("LocalTrader.Data.Magic.MagicCard", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("character varying(100)");
+
+                    b.Property<Guid>("ScryfallId")
+                        .HasColumnType("uuid");
+
+                    b.Property<string>("ScryfallUrl")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("character varying(100)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Cards", "Magic");
+                });
+
+            modelBuilder.Entity("LocalTrader.Data.Magic.MagicWantList", b =>
+                {
+                    b.Property<int>("Id")
+                        .HasColumnType("integer");
+
+                    b.Property<int>("Accessibility")
+                        .HasColumnType("integer");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("character varying(50)");
+
+                    b.Property<Guid>("UserId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("WantLists", "Magic");
+                });
+
+            modelBuilder.Entity("LocalTrader.Data.Magic.WantedMagicCard", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<int>("CardId")
+                        .HasColumnType("integer");
+
+                    b.Property<int>("MinimumCondition")
+                        .HasColumnType("integer");
+
+                    b.Property<int>("Quantity")
+                        .HasColumnType("integer");
+
+                    b.Property<int>("WantListId")
+                        .HasColumnType("integer");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("WantListId");
+
+                    b.HasIndex("CardId", "WantListId")
+                        .IsUnique();
+
+                    b.ToTable("WantedCards", "Magic");
+                });
+
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole<LocalTrader.Shared.Data.Account.UserId>", b =>
                 {
                     b.Property<Guid>("Id")
                         .HasColumnType("uuid");
@@ -121,7 +231,7 @@ namespace LocalTrader.Data.Migrations
                     b.ToTable("AspNetRoles", (string)null);
                 });
 
-            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<LocalTrader.Data.Account.UserId>", b =>
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<LocalTrader.Shared.Data.Account.UserId>", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -145,7 +255,7 @@ namespace LocalTrader.Data.Migrations
                     b.ToTable("AspNetRoleClaims", (string)null);
                 });
 
-            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<LocalTrader.Data.Account.UserId>", b =>
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<LocalTrader.Shared.Data.Account.UserId>", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -169,7 +279,7 @@ namespace LocalTrader.Data.Migrations
                     b.ToTable("AspNetUserClaims", (string)null);
                 });
 
-            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<LocalTrader.Data.Account.UserId>", b =>
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<LocalTrader.Shared.Data.Account.UserId>", b =>
                 {
                     b.Property<string>("LoginProvider")
                         .HasMaxLength(128)
@@ -192,7 +302,7 @@ namespace LocalTrader.Data.Migrations
                     b.ToTable("AspNetUserLogins", (string)null);
                 });
 
-            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserPasskey<LocalTrader.Data.Account.UserId>", b =>
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserPasskey<LocalTrader.Shared.Data.Account.UserId>", b =>
                 {
                     b.Property<byte[]>("CredentialId")
                         .HasMaxLength(1024)
@@ -208,7 +318,7 @@ namespace LocalTrader.Data.Migrations
                     b.ToTable("AspNetUserPasskeys", (string)null);
                 });
 
-            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserRole<LocalTrader.Data.Account.UserId>", b =>
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserRole<LocalTrader.Shared.Data.Account.UserId>", b =>
                 {
                     b.Property<Guid>("UserId")
                         .HasColumnType("uuid");
@@ -223,7 +333,7 @@ namespace LocalTrader.Data.Migrations
                     b.ToTable("AspNetUserRoles", (string)null);
                 });
 
-            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<LocalTrader.Data.Account.UserId>", b =>
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<LocalTrader.Shared.Data.Account.UserId>", b =>
                 {
                     b.Property<Guid>("UserId")
                         .HasColumnType("uuid");
@@ -244,36 +354,85 @@ namespace LocalTrader.Data.Migrations
                     b.ToTable("AspNetUserTokens", (string)null);
                 });
 
-            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<LocalTrader.Data.Account.UserId>", b =>
+            modelBuilder.Entity("LocalTrader.Data.Magic.CollectionMagicCard", b =>
                 {
-                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole<LocalTrader.Data.Account.UserId>", null)
+                    b.HasOne("LocalTrader.Data.Magic.MagicCard", "Card")
+                        .WithMany("Collections")
+                        .HasForeignKey("CardId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("LocalTrader.Data.Account.User", "User")
+                        .WithMany("MagicCollection")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Card");
+
+                    b.Navigation("User");
+                });
+
+            modelBuilder.Entity("LocalTrader.Data.Magic.MagicWantList", b =>
+                {
+                    b.HasOne("LocalTrader.Data.Account.User", "User")
+                        .WithMany("MagicWantLists")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("User");
+                });
+
+            modelBuilder.Entity("LocalTrader.Data.Magic.WantedMagicCard", b =>
+                {
+                    b.HasOne("LocalTrader.Data.Magic.MagicCard", "Card")
+                        .WithMany()
+                        .HasForeignKey("CardId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("LocalTrader.Data.Magic.MagicWantList", "WantList")
+                        .WithMany("Cards")
+                        .HasForeignKey("WantListId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Card");
+
+                    b.Navigation("WantList");
+                });
+
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<LocalTrader.Shared.Data.Account.UserId>", b =>
+                {
+                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole<LocalTrader.Shared.Data.Account.UserId>", null)
                         .WithMany()
                         .HasForeignKey("RoleId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<LocalTrader.Data.Account.UserId>", b =>
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<LocalTrader.Shared.Data.Account.UserId>", b =>
                 {
-                    b.HasOne("LocalTrader.Data.Account.ApplicationUser", null)
+                    b.HasOne("LocalTrader.Data.Account.User", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<LocalTrader.Data.Account.UserId>", b =>
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<LocalTrader.Shared.Data.Account.UserId>", b =>
                 {
-                    b.HasOne("LocalTrader.Data.Account.ApplicationUser", null)
+                    b.HasOne("LocalTrader.Data.Account.User", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserPasskey<LocalTrader.Data.Account.UserId>", b =>
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserPasskey<LocalTrader.Shared.Data.Account.UserId>", b =>
                 {
-                    b.HasOne("LocalTrader.Data.Account.ApplicationUser", null)
+                    b.HasOne("LocalTrader.Data.Account.User", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -320,28 +479,45 @@ namespace LocalTrader.Data.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserRole<LocalTrader.Data.Account.UserId>", b =>
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserRole<LocalTrader.Shared.Data.Account.UserId>", b =>
                 {
-                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole<LocalTrader.Data.Account.UserId>", null)
+                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole<LocalTrader.Shared.Data.Account.UserId>", null)
                         .WithMany()
                         .HasForeignKey("RoleId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("LocalTrader.Data.Account.ApplicationUser", null)
+                    b.HasOne("LocalTrader.Data.Account.User", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<LocalTrader.Data.Account.UserId>", b =>
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<LocalTrader.Shared.Data.Account.UserId>", b =>
                 {
-                    b.HasOne("LocalTrader.Data.Account.ApplicationUser", null)
+                    b.HasOne("LocalTrader.Data.Account.User", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+                });
+
+            modelBuilder.Entity("LocalTrader.Data.Account.User", b =>
+                {
+                    b.Navigation("MagicCollection");
+
+                    b.Navigation("MagicWantLists");
+                });
+
+            modelBuilder.Entity("LocalTrader.Data.Magic.MagicCard", b =>
+                {
+                    b.Navigation("Collections");
+                });
+
+            modelBuilder.Entity("LocalTrader.Data.Magic.MagicWantList", b =>
+                {
+                    b.Navigation("Cards");
                 });
 #pragma warning restore 612, 618
         }

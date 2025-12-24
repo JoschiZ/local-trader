@@ -22,7 +22,7 @@ internal sealed class DeleteCardEndpoint : Endpoint<DeleteCardEndpoint.Request, 
 
     public override void Configure()
     {
-        Delete(ApiRoutes.Account.Collections.DeleteCard);
+        Delete(ApiRoutes.Magic.Collection.DeleteCard, x => new {x.CardId});
     }
 
     public override async Task<Results<NoContent, UnauthorizedHttpResult, NotFound>> ExecuteAsync(Request req, CancellationToken ct)

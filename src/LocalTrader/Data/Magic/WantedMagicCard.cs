@@ -1,6 +1,3 @@
-using LocalTrader.Shared.Api.Account.Collections;
-using LocalTrader.Shared.Api.Account.Wants.Cards;
-using LocalTrader.Shared.Api.Account.Wants.WantLists;
 using LocalTrader.Shared.Api.Magic.Wants.Cards;
 using LocalTrader.Shared.Api.Magic.Wants.Lists;
 
@@ -28,10 +25,12 @@ internal sealed class WantedMagicCardConfiguration : IEntityTypeConfiguration<Wa
 {
     public void Configure(EntityTypeBuilder<WantedMagicCard> builder)
     {
+        builder.ToTable("WantedCards", Schemas.Magic);
         builder.HasKey(x => x.Id);
         builder.Property(x => x.Id).ValueGeneratedOnAdd();
         
         builder.HasIndex(x => new { x.CardId, x.WantListId }).IsUnique();
         builder.HasOne(x => x.Card).WithMany().HasForeignKey(x => x.CardId);
+        builder.HasOne(x => x.WantList).WithMany(x => x.Cards).HasForeignKey(x => x.WantListId);
     }
 }

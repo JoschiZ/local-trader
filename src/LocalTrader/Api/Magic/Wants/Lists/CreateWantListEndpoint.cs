@@ -1,8 +1,9 @@
 using FastEndpoints;
 using LocalTrader.Api.Account;
 using LocalTrader.Data;
+using LocalTrader.Data.Magic;
 using LocalTrader.Shared.Api;
-using LocalTrader.Shared.Api.Account.Wants.WantLists;
+
 using LocalTrader.Shared.Api.Magic.Wants.Lists;
 using Microsoft.AspNetCore.Http.HttpResults;
 
@@ -19,28 +20,21 @@ internal sealed class CreateWantListEndpoint : Endpoint<CreateWantListRequest, R
 
     public override void Configure()
     {
-        Put(ApiRoutes.Account.WantLists.Create);
+        Put(ApiRoutes.Magic.Wants.Lists.Create);
     }
 
     public override async Task<Results<Created, Conflict, UnauthorizedHttpResult>> ExecuteAsync(CreateWantListRequest req, CancellationToken ct)
     {
-        var userId = HttpContext.GetUserId();
-
-        if (userId is null)
-        {
-            return TypedResults.Unauthorized();
-        }
-
-        var newWantList = new WantListBase
+        var newWantList = new MagicWantList
         {
             Name = req.Name,
             Accessibility = req.Accessibility,
-            UserId = userId.Value
+            UserId = req.UserId,
         };
 
         _context
-            .Wants
-            .Lists
+            .Magic
+            .WantLists
             .Add(newWantList);
 
         await _context

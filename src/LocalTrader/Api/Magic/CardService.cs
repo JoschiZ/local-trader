@@ -2,8 +2,8 @@
 using LocalTrader.Data.Magic;
 using LocalTrader.Shared.Data.Magic.Cards;
 using LocalTrader.Shared.DataStructures.Results;
+using Microsoft.EntityFrameworkCore;
 using ScryfallApi.Client;
-using ScryfallApi.Client.Models;
 using Error = LocalTrader.Shared.DataStructures.Results.Error;
 
 namespace LocalTrader.Api.Magic;
@@ -27,8 +27,8 @@ internal sealed class MagicCardRepository : IMagicCardRepository
     public async Task<Result<MagicCard>> GetCardAsync(ScryfallId scryfallId, CancellationToken cancellationToken = default)
     {
         var card = await _context
-            .Cards
             .Magic
+            .Cards
             .FirstOrDefaultAsync(x => x.ScryfallId == scryfallId,  cancellationToken)
             .ConfigureAwait(false);
 
@@ -50,25 +50,11 @@ internal sealed class MagicCardRepository : IMagicCardRepository
         card = scryfallCard.Value.ToMagicCard();
 
         _context
-            .Cards
             .Magic
+            .Cards
             .Add(card);
         
         await _context.SaveChangesAsync(cancellationToken).ConfigureAwait(false);
         return card;
-    }
-}
-
-public static class ScryfallCardExtensions
-{
-    extension(Card scryfallCard)
-    {
-        public MagicCard ToMagicCard()
-            => new()
-            {
-                Name = scryfallCard.Name,
-                ScryfallUrl = scryfallCard.ScryfallUri,
-                ScryfallId = new ScryfallId(scryfallCard.Id),
-            };
     }
 }

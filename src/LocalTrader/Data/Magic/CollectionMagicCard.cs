@@ -1,6 +1,6 @@
 using LocalTrader.Data.Account;
-using LocalTrader.Shared.Api.Account.Collections;
-using LocalTrader.Shared.Api.Account.Users;
+
+
 using LocalTrader.Shared.Data.Account;
 
 using LocalTrader.Shared.Data.Magic.Cards;
@@ -26,7 +26,7 @@ internal sealed class CollectionMagicCardConfiguration : IEntityTypeConfiguratio
 {
     public void Configure(EntityTypeBuilder<CollectionMagicCard> builder)
     {
-        builder.ToTable("Cards", Schemas.Account);
+        builder.ToTable("CollectionCards", Schemas.Magic);
 
         builder.HasKey(x => x.Id);
         builder.Property(x => x.Id).ValueGeneratedOnAdd();

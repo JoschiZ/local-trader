@@ -23,7 +23,7 @@ internal sealed class AddCardEndpoint : Endpoint<AddMagicCardToCollectionRequest
 
     public override void Configure()
     {
-        Put(ApiRoutes.Account.Collections.Magic.AddCard);
+        Put(ApiRoutes.Magic.Collection.AddCard);
     }
 
     public override async Task<Results<Created, NotFound, UnauthorizedHttpResult, Conflict>> ExecuteAsync(

@@ -4,7 +4,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 #nullable disable
 
-namespace LocalTrader.Data.Migrations
+namespace LocalTrader.Migrations
 {
     /// <inheritdoc />
     public partial class Initial : Migration
@@ -12,6 +12,9 @@ namespace LocalTrader.Data.Migrations
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.EnsureSchema(
+                name: "Magic");
+
             migrationBuilder.CreateTable(
                 name: "AspNetRoles",
                 columns: table => new
@@ -50,6 +53,22 @@ namespace LocalTrader.Data.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_AspNetUsers", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Cards",
+                schema: "Magic",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "integer", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    Name = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: false),
+                    ScryfallUrl = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: false),
+                    ScryfallId = table.Column<Guid>(type: "uuid", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Cards", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -177,6 +196,88 @@ namespace LocalTrader.Data.Migrations
                         onDelete: ReferentialAction.Cascade);
                 });
 
+            migrationBuilder.CreateTable(
+                name: "WantLists",
+                schema: "Magic",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "integer", nullable: false),
+                    UserId = table.Column<Guid>(type: "uuid", nullable: false),
+                    Name = table.Column<string>(type: "character varying(50)", maxLength: 50, nullable: false),
+                    Accessibility = table.Column<int>(type: "integer", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_WantLists", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_WantLists_AspNetUsers_UserId",
+                        column: x => x.UserId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "CollectionCards",
+                schema: "Magic",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "integer", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    UserId = table.Column<Guid>(type: "uuid", nullable: false),
+                    Condition = table.Column<int>(type: "integer", nullable: false),
+                    Quantity = table.Column<int>(type: "integer", nullable: false),
+                    CardId = table.Column<int>(type: "integer", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_CollectionCards", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_CollectionCards_AspNetUsers_UserId",
+                        column: x => x.UserId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_CollectionCards_Cards_CardId",
+                        column: x => x.CardId,
+                        principalSchema: "Magic",
+                        principalTable: "Cards",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "WantedCards",
+                schema: "Magic",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "integer", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    MinimumCondition = table.Column<int>(type: "integer", nullable: false),
+                    Quantity = table.Column<int>(type: "integer", nullable: false),
+                    WantListId = table.Column<int>(type: "integer", nullable: false),
+                    CardId = table.Column<int>(type: "integer", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_WantedCards", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_WantedCards_Cards_CardId",
+                        column: x => x.CardId,
+                        principalSchema: "Magic",
+                        principalTable: "Cards",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_WantedCards_WantLists_WantListId",
+                        column: x => x.WantListId,
+                        principalSchema: "Magic",
+                        principalTable: "WantLists",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
             migrationBuilder.CreateIndex(
                 name: "IX_AspNetRoleClaims_RoleId",
                 table: "AspNetRoleClaims",
@@ -218,6 +319,38 @@ namespace LocalTrader.Data.Migrations
                 table: "AspNetUsers",
                 column: "NormalizedUserName",
                 unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "IX_CollectionCards_CardId",
+                schema: "Magic",
+                table: "CollectionCards",
+                column: "CardId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_CollectionCards_UserId_CardId_Condition",
+                schema: "Magic",
+                table: "CollectionCards",
+                columns: new[] { "UserId", "CardId", "Condition" },
+                unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "IX_WantedCards_CardId_WantListId",
+                schema: "Magic",
+                table: "WantedCards",
+                columns: new[] { "CardId", "WantListId" },
+                unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "IX_WantedCards_WantListId",
+                schema: "Magic",
+                table: "WantedCards",
+                column: "WantListId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_WantLists_UserId",
+                schema: "Magic",
+                table: "WantLists",
+                column: "UserId");
         }
 
         /// <inheritdoc />
@@ -242,7 +375,23 @@ namespace LocalTrader.Data.Migrations
                 name: "AspNetUserTokens");
 
             migrationBuilder.DropTable(
+                name: "CollectionCards",
+                schema: "Magic");
+
+            migrationBuilder.DropTable(
+                name: "WantedCards",
+                schema: "Magic");
+
+            migrationBuilder.DropTable(
                 name: "AspNetRoles");
+
+            migrationBuilder.DropTable(
+                name: "Cards",
+                schema: "Magic");
+
+            migrationBuilder.DropTable(
+                name: "WantLists",
+                schema: "Magic");
 
             migrationBuilder.DropTable(
                 name: "AspNetUsers");

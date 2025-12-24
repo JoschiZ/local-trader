@@ -4,6 +4,7 @@ using LocalTrader.Data;
 using LocalTrader.Shared.Api;
 using LocalTrader.Shared.Api.Magic.Collection;
 using Microsoft.AspNetCore.Http.HttpResults;
+using Microsoft.EntityFrameworkCore;
 
 namespace LocalTrader.Api.Magic.Collection;
 
@@ -18,22 +19,15 @@ public class UpdateCardEndpoint : Endpoint<UpdateCardRequest, Results<Ok, NotFou
 
     public override void Configure()
     {
-        Patch(ApiRoutes.Account.Collections.UpdateCard);
+        Patch(ApiRoutes.Magic.Collection.UpdateCard, ApiRoutes.Magic.Collection.UpdateBinding);
     }
 
     public override async Task<Results<Ok, NotFound, UnauthorizedHttpResult>> ExecuteAsync(UpdateCardRequest req, CancellationToken ct)
     {
-        var userId = HttpContext.GetUserId();
-
-        if (userId is null)
-        {
-            return TypedResults.Unauthorized();
-        }
-
         var card = await _context
+            .Magic
             .Collections
-            .All
-            .Where(x => x.UserId == userId)
+            .Where(x => x.UserId == req.UserId)
             .FirstOrDefaultAsync(x => x.Id == req.CardId, cancellationToken: ct)
             .ConfigureAwait(false);
 

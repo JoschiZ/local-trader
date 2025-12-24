@@ -1,12 +1,18 @@
+using System.Security.Claims;
+using System.Text.Json.Serialization;
 using FastEndpoints;
 using FluentValidation;
+using LocalTrader.Shared.Data.Account;
 
 namespace LocalTrader.Shared.Api.Magic.Wants.Lists;
 
 public sealed class UpdateWantListRequest
 {
-    [BindFrom("wantListId")]
-    public MagicWantListId Id { get; set; }
+    [BindFrom("wantListId"), JsonIgnore]
+    public MagicWantListId Id { get; private init; }
+    [FromClaim(ClaimTypes.NameIdentifier), JsonIgnore]
+    public UserId UserId { get; private init; }
+
     public string? Name { get; set; }
     public Accessibility? Accessibility { get; set; }
 }

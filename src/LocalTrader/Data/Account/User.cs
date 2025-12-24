@@ -1,6 +1,5 @@
-using LocalTrader.Data.Account.Wants;
 using LocalTrader.Data.Magic;
-using LocalTrader.Shared.Api.Account.Users;
+
 using LocalTrader.Shared.Data.Account;
 using Microsoft.AspNetCore.Identity;
 

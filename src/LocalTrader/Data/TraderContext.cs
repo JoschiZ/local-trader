@@ -1,9 +1,7 @@
 using JetBrains.Annotations;
 using LocalTrader.Data.Account;
-using LocalTrader.Data.Account.Wants;
 using LocalTrader.Data.Magic;
 using LocalTrader.Generated;
-using LocalTrader.Shared.Api.Account.Users;
 using LocalTrader.Shared.Data.Account;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;

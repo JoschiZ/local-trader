@@ -2,9 +2,10 @@ using FastEndpoints;
 using LocalTrader.Api.Account;
 using LocalTrader.Data;
 using LocalTrader.Shared.Api;
-using LocalTrader.Shared.Api.Account.Wants.WantLists;
+
 using LocalTrader.Shared.Api.Magic.Wants.Lists;
 using Microsoft.AspNetCore.Http.HttpResults;
+using Microsoft.EntityFrameworkCore;
 
 namespace LocalTrader.Api.Magic.Wants.Lists;
 
@@ -19,22 +20,15 @@ internal sealed class UpdateWantListEndpoint : Endpoint<UpdateWantListRequest, R
 
     public override void Configure()
     {
-        Patch(ApiRoutes.Account.WantLists.Update);
+        Patch(ApiRoutes.Magic.Wants.Lists.Update, ApiRoutes.Magic.Wants.Lists.UpdateBinding);
     }
 
     public override async Task<Results<Ok, NotFound, UnauthorizedHttpResult>> ExecuteAsync(UpdateWantListRequest req, CancellationToken ct)
     {
-        var userId = HttpContext.GetUserId();
-
-        if (userId is null)
-        {
-            return TypedResults.Unauthorized();
-        }
-
         var existingList = await _context
-            .Wants
-            .Lists
-            .Where(x => x.UserId == userId)
+            .Magic
+            .WantLists
+            .Where(x => x.UserId == req.UserId)
             .FirstOrDefaultAsync(x => x.Id == req.Id, cancellationToken: ct)
             .ConfigureAwait(false);
 

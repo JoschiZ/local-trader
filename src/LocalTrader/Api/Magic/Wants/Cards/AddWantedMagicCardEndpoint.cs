@@ -4,6 +4,7 @@ using LocalTrader.Data.Magic;
 using LocalTrader.Shared.Api;
 using LocalTrader.Shared.Api.Magic.Wants.Cards;
 using Microsoft.AspNetCore.Http.HttpResults;
+using Microsoft.EntityFrameworkCore;
 
 namespace LocalTrader.Api.Magic.Wants.Cards;
 
@@ -20,14 +21,14 @@ internal sealed class AddWantedMagicCardEndpoint : Endpoint<AddWantedMagicCardRe
 
     public override void Configure()
     {
-        Put(ApiRoutes.Account.WantLists.Cards.Magic.Add);
+        Put(ApiRoutes.Magic.Wants.Cards.Add, ApiRoutes.Magic.Wants.Cards.AddBinding);
     }
 
     public override async Task<Results<Ok, UnauthorizedHttpResult, NotFound, Conflict>> ExecuteAsync(AddWantedMagicCardRequest req, CancellationToken ct)
     {
         var alreadyExists = await _context
-            .Wants
-            .WantedMagicCards
+            .Magic
+            .WantedCards
             .Where(x => x.Card!.ScryfallId == req.ScryfallId)
             .Where(x => x.WantListId == req.WantListId)
             .AnyAsync(ct)
@@ -39,8 +40,8 @@ internal sealed class AddWantedMagicCardEndpoint : Endpoint<AddWantedMagicCardRe
         }
         
         var wantList = await _context
-            .Wants
-            .Lists
+            .Magic
+            .WantLists
             .Where(x => x.UserId == req.UserId)
             .FirstOrDefaultAsync(x => x.Id == req.WantListId, cancellationToken: ct)
             .ConfigureAwait(false);
@@ -66,8 +67,9 @@ internal sealed class AddWantedMagicCardEndpoint : Endpoint<AddWantedMagicCardRe
             MinimumCondition = req.MinimumCondition,
             Quantity = req.Quantity
         };
-        
-        wantList.WantedCards.Add(newCard);
+
+
+        wantList.Cards.Add(newCard);
 
         await _context.SaveChangesAsync(ct).ConfigureAwait(false);
 

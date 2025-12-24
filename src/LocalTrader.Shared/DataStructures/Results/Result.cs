@@ -15,7 +15,7 @@ public sealed record Result<T>
     
     [MemberNotNullWhen(true, nameof(Value))]
     [MemberNotNullWhen(false, nameof(Error))]
-    public new bool IsSuccess { get; }
+    public bool IsSuccess { get; }
     [MemberNotNullWhen(true, nameof(Error))]
     [MemberNotNullWhen(false, nameof(Value))]
     public new bool IsFailure  => !IsSuccess;

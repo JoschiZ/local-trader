@@ -1,9 +1,10 @@
 using FastEndpoints;
 using LocalTrader.Data;
 using LocalTrader.Shared.Api;
-using LocalTrader.Shared.Api.Account.Wants.Cards;
+
 using LocalTrader.Shared.Api.Magic.Wants.Cards;
 using Microsoft.AspNetCore.Http.HttpResults;
+using Microsoft.EntityFrameworkCore;
 
 namespace LocalTrader.Api.Magic.Wants.Cards;
 
@@ -18,13 +19,13 @@ internal sealed class UpdateWantedCard : Endpoint<UpdateWantedCardRequest, Resul
 
     public override void Configure()
     {
-        Patch(ApiRoutes.Account.WantLists.Cards.UpdateCard);
+        Patch(ApiRoutes.Magic.Wants.Cards.Update, ApiRoutes.Magic.Wants.Cards.UpdateBinding);
     }
 
     public override async Task<Results<Ok, NotFound, UnauthorizedHttpResult>> ExecuteAsync(UpdateWantedCardRequest req, CancellationToken ct)
     {
         var card = await _context
-            .Wants
+            .Magic
             .WantedCards
             .Where(x => x.WantList!.UserId == req.UserId)
             .FirstOrDefaultAsync(x => x.Id == req.WantedMagicCardId, ct)

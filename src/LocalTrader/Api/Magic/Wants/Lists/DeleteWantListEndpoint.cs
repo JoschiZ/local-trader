@@ -2,9 +2,10 @@ using FastEndpoints;
 using LocalTrader.Api.Account;
 using LocalTrader.Data;
 using LocalTrader.Shared.Api;
-using LocalTrader.Shared.Api.Account.Wants.WantLists;
+
 using LocalTrader.Shared.Api.Magic.Wants.Lists;
 using Microsoft.AspNetCore.Http.HttpResults;
+using Microsoft.EntityFrameworkCore;
 
 namespace LocalTrader.Api.Magic.Wants.Lists;
 
@@ -19,22 +20,15 @@ internal sealed class DeleteWantListEndpoint : Endpoint<DeleteWantListRequest, R
 
     public override void Configure()
     {
-        Delete(ApiRoutes.Account.WantLists.Delete);
+        Delete(ApiRoutes.Magic.Wants.Lists.Delete, ApiRoutes.Magic.Wants.Lists.DeleteBinding);
     }
     
     public override async Task<Results<NoContent, UnauthorizedHttpResult, NotFound>> ExecuteAsync(DeleteWantListRequest req, CancellationToken ct)
     {
-        var userId = HttpContext.GetUserId();
-
-        if (userId is null)
-        {
-            return TypedResults.Unauthorized();
-        }
-
         var deletedCount = await _context
-            .Wants
-            .Lists
-            .Where(x => x.UserId == userId.Value)
+            .Magic
+            .WantLists
+            .Where(x => x.UserId == req.UserId)
             .Where(x => x.Id == req.Id)
             .ExecuteDeleteAsync(ct)
             .ConfigureAwait(false);

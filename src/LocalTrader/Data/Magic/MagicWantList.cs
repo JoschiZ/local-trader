@@ -1,6 +1,6 @@
 using LocalTrader.Data.Account;
-using LocalTrader.Shared.Api.Account.Users;
-using LocalTrader.Shared.Api.Account.Wants.WantLists;
+
+
 using LocalTrader.Shared.Api.Magic.Wants.Lists;
 using LocalTrader.Shared.Data.Account;
 using Microsoft.EntityFrameworkCore;
@@ -16,7 +16,7 @@ public sealed class MagicWantList
     
     public required string Name { get; set; }
     public required Accessibility Accessibility { get; set; }
-
+    public List<WantedMagicCard> Cards { get; init; } = [];
 }
 
 internal sealed class MagicWantListConfiguration : IEntityTypeConfiguration<MagicWantList>
