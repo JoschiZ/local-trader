@@ -50,6 +50,7 @@ public static class ApiRoutes
         public const string Logout = "Account/Logout";
         public const string GetPasskeyCreationOptions = "Account/PasskeyCreationOptions";
         public const string PasskeyRequestOptions = "Account/PasskeyRequestOptions";
+        public const string Login = "Account/login";
 
         public static class Manage
         {

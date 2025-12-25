@@ -8,6 +8,7 @@ using LocalTrader.Data;
 using LocalTrader.Data.Account;
 using LocalTrader.ServiceDefaults;
 using LocalTrader.Shared.Aspire;
+using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using MudBlazor.Services;
@@ -21,6 +22,7 @@ var builder = WebApplication.CreateBuilder(args);
 builder.AddServiceDefaults();
 var services = builder.Services;
 
+services.AddIdentityApiEndpoints<User>();
 
 services.AddScoped<IMagicCardRepository, MagicCardRepository>();
 services.AddScryfallApiClient();
@@ -64,6 +66,17 @@ builder
         options.DefaultSignInScheme = IdentityConstants.ExternalScheme;
     })
     .AddIdentityCookies();
+s
+services
+    .AddAuthentication(IdentityConstants.BearerAndApplicationScheme)
+    .AddScheme<AuthenticationSchemeOptions, CompositeIdentityHandler>(IdentityConstants.BearerAndApplicationScheme, null, compositeOptions =>
+    {
+        compositeOptions.ForwardDefault = IdentityConstants.BearerScheme;
+        compositeOptions.ForwardAuthenticate = IdentityConstants.BearerAndApplicationScheme;
+    })
+    .AddBearerToken(IdentityConstants.BearerScheme)
+    .AddIdentityCookies();
+
 builder.Services.AddAuthorization();
 builder.Services.AddScoped<IUserClaimsPrincipalFactory<User>, SupplementalClaimsFactory>();
 
