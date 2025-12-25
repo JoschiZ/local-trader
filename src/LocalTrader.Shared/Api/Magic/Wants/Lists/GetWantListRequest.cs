@@ -9,10 +9,10 @@ namespace LocalTrader.Shared.Api.Magic.Wants.Lists;
 public sealed class GetWantListRequest
 {
     [FromClaim(ClaimTypes.NameIdentifier, false)]
-    public UserId UserId { get; private init; }
+    public UserId UserId { get; init; } init; }
     
     [BindFrom("wantListId"), RouteParam, JsonIgnore]
-    public MagicWantListId WantListId { get; private init; }
+    public MagicWantListId WantListId { get; init; } init; }
 }
 
 public sealed class GetWantListRequestValidator : AbstractValidator<GetWantListRequest>

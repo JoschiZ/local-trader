@@ -10,7 +10,7 @@ namespace LocalTrader.Shared.Api.Magic.Collection;
 public sealed class AddMagicCardToCollectionRequest
 {
     [FromClaim(ClaimTypes.NameIdentifier), JsonIgnore]
-    public UserId UserId { get; private init; }
+    public UserId UserId { get; init; } init; }
     public required ScryfallId ScryfallId { get; set; }
     public int Quantity { get; set; } = 1;
     public required CardCondition CardCondition { get; set; }
