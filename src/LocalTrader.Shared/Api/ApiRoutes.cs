@@ -43,4 +43,18 @@ public static class ApiRoutes
             public const string AddCard = "collections/magic/cards";
         }
     }
+
+    public static class Account
+    {
+        public const string ExternalLogin = "Account/PerformExternalLogin";
+        public const string Logout = "Account/Logout";
+        public const string GetPasskeyCreationOptions = "Account/PasskeyCreationOptions";
+        public const string PasskeyRequestOptions = "Account/PasskeyRequestOptions";
+
+        public static class Manage
+        {
+            public const string DownloadPersonalData = "Account/Manage/DownloadPersonalData";
+            public const string LinkExternalLogin = "Account/Manage/LinkExternalLogin";
+        }
+    }
 }

@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.Antiforgery;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Identity;
 
-namespace LocalTrader.Api.Account.Manage;
+namespace LocalTrader.Api.Account;
 
 public class PasskeyRequestOptionsEndpoint : Endpoint<PasskeyRequestOptionsEndpoint.Request, ContentHttpResult>
 {

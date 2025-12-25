@@ -4,7 +4,7 @@ using LocalTrader.Shared.Api;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Identity;
 
-namespace LocalTrader.Api.Account.Manage;
+namespace LocalTrader.Api.Account;
 
 public class LogoutEndpoint : Endpoint<LogoutEndpoint.Request, RedirectHttpResult>
 {

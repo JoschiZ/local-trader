@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Primitives;
 
-namespace LocalTrader.Api.Account.Manage;
+namespace LocalTrader.Api.Account;
 public class PerformExternalLoginEndpoint : Endpoint<PerformExternalLoginEndpoint.Request, ChallengeHttpResult>
 {
     

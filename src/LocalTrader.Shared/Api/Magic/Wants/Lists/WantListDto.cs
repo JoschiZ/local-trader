@@ -7,5 +7,5 @@ public record WantListDto(
     string Name,
     UserId Owner,
     Accessibility Accessibility,
-    WantedCardDto[] WantedCards
+    WantedMagicCardDto[] WantedCards
     );
