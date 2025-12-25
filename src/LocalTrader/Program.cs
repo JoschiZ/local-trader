@@ -1,4 +1,3 @@
-using System.Text.Json.Serialization;
 using FastEndpoints;
 using FastEndpoints.Swagger;
 using LocalTrader.Api.Account;
@@ -15,6 +14,7 @@ using MudBlazor.Services;
 using NSwag;
 using Scalar.AspNetCore;
 using ScryfallApi.Client;
+using _Imports = LocalTrader.Client._Imports;
 
 var builder = WebApplication.CreateBuilder(args);
 

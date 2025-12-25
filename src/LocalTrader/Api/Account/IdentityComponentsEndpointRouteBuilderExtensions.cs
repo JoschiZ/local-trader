@@ -24,7 +24,7 @@ internal static class IdentityComponentsEndpointRouteBuilderExtensions
 
         var accountGroup = endpoints.MapGroup("api/Account");
 
-        accountGroup.MapPost("/PerformExternalLogin", (
+        /*accountGroup.MapPost("/PerformExternalLogin", (
             HttpContext context,
             [FromServices] SignInManager<User> signInManager,
             [FromForm] string provider,
@@ -43,18 +43,18 @@ internal static class IdentityComponentsEndpointRouteBuilderExtensions
 
             var properties = signInManager.ConfigureExternalAuthenticationProperties(provider, redirectUrl);
             return TypedResults.Challenge(properties, [provider]);
-        });
+        });*/
 
-        accountGroup.MapPost("/Logout", async (
-            ClaimsPrincipal user,
-            [FromServices] SignInManager<User> signInManager,
-            [FromForm] string returnUrl) =>
-        {
-            await signInManager.SignOutAsync();
-            return TypedResults.LocalRedirect($"~/{returnUrl}");
-        });
-        
-        accountGroup.MapPost("/PasskeyCreationOptions", async (
+        // accountGroup.MapPost("/Logout", async (
+        //     ClaimsPrincipal user,
+        //     [FromServices] SignInManager<User> signInManager,
+        //     [FromForm] string returnUrl) =>
+        // {
+        //     await signInManager.SignOutAsync();
+        //     return TypedResults.LocalRedirect($"~/{returnUrl}");
+        // });
+        //
+        /*accountGroup.MapPost("/PasskeyCreationOptions", async (
             HttpContext context,
             [FromServices] UserManager<User> userManager,
             [FromServices] SignInManager<User> signInManager,
@@ -77,9 +77,9 @@ internal static class IdentityComponentsEndpointRouteBuilderExtensions
                 DisplayName = userName
             });
             return TypedResults.Content(optionsJson, contentType: "application/json");
-        });
+        });*/
 
-        accountGroup.MapPost("/PasskeyRequestOptions", async (
+        /*accountGroup.MapPost("/PasskeyRequestOptions", async (
             HttpContext context,
             [FromServices] UserManager<User> userManager,
             [FromServices] SignInManager<User> signInManager,
@@ -91,11 +91,11 @@ internal static class IdentityComponentsEndpointRouteBuilderExtensions
             var user = string.IsNullOrEmpty(username) ? null : await userManager.FindByNameAsync(username);
             var optionsJson = await signInManager.MakePasskeyRequestOptionsAsync(user);
             return TypedResults.Content(optionsJson, contentType: "application/json");
-        });
+        });*/
 
         var manageGroup = accountGroup.MapGroup("/Manage").RequireAuthorization();
 
-        manageGroup.MapPost("/LinkExternalLogin", async (
+        /*manageGroup.MapPost("/LinkExternalLogin", async (
             HttpContext context,
             [FromServices] SignInManager<User> signInManager,
             [FromForm] string provider) =>
@@ -112,8 +112,9 @@ internal static class IdentityComponentsEndpointRouteBuilderExtensions
                 signInManager.UserManager.GetUserId(context.User));
             return TypedResults.Challenge(properties, [provider]);
         });
+        */
 
-        var loggerFactory = endpoints.ServiceProvider.GetRequiredService<ILoggerFactory>();
+        /*var loggerFactory = endpoints.ServiceProvider.GetRequiredService<ILoggerFactory>();
         var downloadLogger = loggerFactory.CreateLogger("DownloadPersonalData");
 
         manageGroup.MapPost("/DownloadPersonalData", async (
@@ -150,7 +151,7 @@ internal static class IdentityComponentsEndpointRouteBuilderExtensions
 
             context.Response.Headers.TryAdd("Content-Disposition", "attachment; filename=PersonalData.json");
             return TypedResults.File(fileBytes, contentType: "application/json", fileDownloadName: "PersonalData.json");
-        });
+        });*/
 
         return accountGroup;
     }
