@@ -21,6 +21,7 @@ public class LinkExternalLoginEndpoint : Endpoint<LinkExternalLoginEndpoint.Requ
     public override void Configure()
     {
         Post(ApiRoutes.Account.Manage.LinkExternalLogin);
+        AllowFormData(true);
     }
 
     public override async Task<ChallengeHttpResult> ExecuteAsync(Request req, CancellationToken ct)
@@ -42,7 +43,7 @@ public class LinkExternalLoginEndpoint : Endpoint<LinkExternalLoginEndpoint.Requ
 
     public sealed class Request
     {
-        [BindFrom("required")]
+        [BindFrom("required"), FormField]
         public required string Provider { get; set; }
     }
 }

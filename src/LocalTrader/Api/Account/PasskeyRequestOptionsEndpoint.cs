@@ -22,6 +22,7 @@ public class PasskeyRequestOptionsEndpoint : Endpoint<PasskeyRequestOptionsEndpo
     public override void Configure()
     {
         Post(ApiRoutes.Account.PasskeyRequestOptions);
+        AllowFormData(true);
         AllowAnonymous();
     }
 
@@ -39,7 +40,7 @@ public class PasskeyRequestOptionsEndpoint : Endpoint<PasskeyRequestOptionsEndpo
 
     public sealed class Request
     {
-        [BindFrom("username")]
+        [BindFrom("username"), FormField]
         public required string Username { get; set; }
     }
 }

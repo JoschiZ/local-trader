@@ -17,6 +17,7 @@ public class LogoutEndpoint : Endpoint<LogoutEndpoint.Request, RedirectHttpResul
     public override void Configure()
     {
         Post(ApiRoutes.Account.Logout);
+        AllowFormData(true);
         AllowAnonymous();
     }
 
@@ -29,7 +30,7 @@ public class LogoutEndpoint : Endpoint<LogoutEndpoint.Request, RedirectHttpResul
     public sealed class Request
     {
         
-        [BindFrom("returnUrl")]
+        [BindFrom("returnUrl"), FormField]
         public required string ReturnUrl { get; set; }
     }
 }

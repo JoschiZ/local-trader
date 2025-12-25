@@ -22,6 +22,7 @@ public class PerformExternalLoginEndpoint : Endpoint<PerformExternalLoginEndpoin
     {
         Post(ApiRoutes.Account.ExternalLogin);
         AllowAnonymous();
+        AllowFormData(true);
     }
 
     public override Task<ChallengeHttpResult> ExecuteAsync(Request req, CancellationToken ct)
@@ -43,10 +44,10 @@ public class PerformExternalLoginEndpoint : Endpoint<PerformExternalLoginEndpoin
 
     public class Request
     {
-        [BindFrom("provider")]   
+        [BindFrom("provider"), FormField]   
         public required string Provider { get; set; }
         
-        [BindFrom("returnUrl")]
+        [BindFrom("returnUrl"), FormField]
         public required string ReturnUrl { get; set; }
     }
 }
