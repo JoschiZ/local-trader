@@ -8,10 +8,10 @@ namespace LocalTrader.Shared.Api.Magic.Wants.Lists;
 
 public sealed class UpdateWantListRequest
 {
-    [BindFrom("wantListId"), JsonIgnore]
-    public MagicWantListId Id { get; private init; }
+    [BindFrom("wantListId"), RouteParam, JsonIgnore]
+    public MagicWantListId Id { get; init; }
     [FromClaim(ClaimTypes.NameIdentifier), JsonIgnore]
-    public UserId UserId { get; private init; }
+    public UserId UserId { get; init; }
 
     public string? Name { get; set; }
     public Accessibility? Accessibility { get; set; }

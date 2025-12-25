@@ -21,10 +21,9 @@
           "ASPNETCORE_ENVIRONMENT": "Development"
         }
       },
-      "generate-clients": {
+      "no-db": {
         "commandName": "Project",
         "dotnetRunMessages": true,
-        "commandLineArgs": "--generateclients true",
         "environmentVariables": {
           "ASPNETCORE_ENVIRONMENT": "Development",
           "ConnectionStrings__local-trader": "DummyConnectionString"

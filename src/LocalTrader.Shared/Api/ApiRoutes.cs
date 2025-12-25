@@ -27,20 +27,20 @@ public static class ApiRoutes
             }
             public static class Cards
             {
-                public const string Remove = "want-lists/cards/{@id}";
+                public const string Remove = RoutePrefix + "want-lists/cards/{@id}";
                 public static readonly Expression<Func<RemoveWantedCardRequest, object>> RemoveBinding = x => new { x.WantedMagicCardId };
-                public const string Update = "want-lists/cards/{@id}";
+                public const string Update = RoutePrefix +"want-lists/cards/{@id}";
                 public static readonly Expression<Func<UpdateWantedCardRequest, object>> UpdateBinding = x => new { x.WantedMagicCardId };
-                public const string Add = "want-lists/{@id}";
+                public const string Add = RoutePrefix +"want-lists/{@id}";
                 public static readonly Expression<Func<AddWantedMagicCardRequest, object>> AddBinding = x => new { x.WantListId };
             }
         }
         public static class Collection
         {
-            public const string DeleteCard = "collections/cards/{@id}";
-            public const string UpdateCard = "collections/cards/{@id}";
+            public const string DeleteCard = RoutePrefix + "collections/cards/{@id}";
+            public const string UpdateCard = RoutePrefix + "collections/cards/{@id}";
             public static readonly Expression<Func<UpdateCardRequest, object>> UpdateBinding = x => new { x.CardId };
-            public const string AddCard = "collections/magic/cards";
+            public const string AddCard = RoutePrefix + "collections/magic/cards";
         }
     }
 

@@ -14,7 +14,7 @@ public sealed class AddWantedMagicCardRequest
     [FromClaim(ClaimTypes.NameIdentifier), JsonIgnore]
     public UserId UserId { get; private init; }
     
-    [BindFrom("wantListId"), JsonIgnore]
+    [BindFrom("wantListId"), RouteParam, JsonIgnore]
     public MagicWantListId WantListId { get; private init; }
     
     public required ScryfallId ScryfallId { get; set; }

@@ -7,7 +7,7 @@ namespace LocalTrader.Shared.Api.Magic.Wants.Lists;
 
 public sealed class DeleteWantListRequest
 {
-    [BindFrom("wantListId"), JsonIgnore]
+    [BindFrom("wantListId"), RouteParam, JsonIgnore]
     public required MagicWantListId Id { get; set; }
 
     [FromClaim(ClaimTypes.NameIdentifier), JsonIgnore]

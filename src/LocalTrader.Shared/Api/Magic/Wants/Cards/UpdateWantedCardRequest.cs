@@ -12,7 +12,7 @@ public sealed class UpdateWantedCardRequest
     [FromClaim(ClaimTypes.NameIdentifier), JsonIgnore]
     public UserId UserId { get; init; }
     
-    [BindFrom("wantedCardId"), JsonIgnore]
+    [BindFrom("wantedCardId"), RouteParam, JsonIgnore]
     public required WantedMagicCardId WantedMagicCardId { get; set; }
     
     public int? Quantity { get; set; }
