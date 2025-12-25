@@ -35,8 +35,7 @@
                                         UserAttributes="@(new Dictionary<string, object?> { { "autocomplete", "current-password" }, { "aria-required", "true" } })"/>
                 </MudItem>
                 <MudItem md="12">
-                    <MudStaticCheckBox For="@(() => Input.RememberMe)" @bind-Value="Input.RememberMe">Remember me
-                    </MudStaticCheckBox>
+                     <MudStaticCheckBox For="@(() => Input.RememberMe)"  @bind-Value="@Input.RememberMe">Remember me</MudStaticCheckBox>
                 </MudItem>
                 <MudItem md="12">
                     <MudStack Row>
