@@ -1,6 +1,8 @@
+using System;
+using System.IO;
 using FastEndpoints;
 using FastEndpoints.Swagger;
-using LocalTrader.Api.Account;
+using FastEndpoints.ClientGen;
 using LocalTrader.Api.Account.Authentication;
 using LocalTrader.Api.Magic;
 using LocalTrader.Components;
@@ -11,9 +13,13 @@ using LocalTrader.ServiceDefaults;
 using LocalTrader.Shared.Api;
 using LocalTrader.Shared.Aspire;
 using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
 using MudBlazor.Services;
+using NJsonSchema.CodeGeneration.CSharp;
 using NSwag;
 using NSwag.Generation.Processors.Security;
 using Scalar.AspNetCore;
@@ -147,9 +153,6 @@ app.MapRazorComponents<App>()
     .AddInteractiveWebAssemblyRenderMode()
     .AddAdditionalAssemblies(typeof(_Imports).Assembly);
 
-// Add additional endpoints required by the Identity /Account Razor components.
-app.MapAdditionalIdentityEndpoints();
-
 app.UseFastEndpoints(x =>
     {
         x.Endpoints.RoutePrefix = "api";
@@ -161,6 +164,18 @@ app.UseFastEndpoints(x =>
         x.Versioning.PrependToRoute = true;
     })
     .UseSwaggerGen(x => { x.Path = "openapi/{documentName}.json"; });
+
+var path = Path.Combine(Directory.GetParent(Environment.CurrentDirectory)!.FullName, "LocalTrader.Client", "ApiClients");  
+await app.GenerateClientsAndExitAsync("v1", path, settings =>
+{
+    settings.CSharpGeneratorSettings.JsonLibrary = CSharpJsonLibrary.SystemTextJson;
+    settings.CSharpGeneratorSettings.GenerateNullableReferenceTypes = true;
+    settings.ClassName = "TraderClient";
+    settings.CSharpGeneratorSettings.Namespace = "LocalTrader.Client.ApiClients";
+    settings.CSharpGeneratorSettings.UseRequiredKeyword = true;
+    settings.CSharpGeneratorSettings.JsonLibraryVersion = 10;
+}, null)
+    .ConfigureAwait(false);
 
 app.MapScalarApiReference();
 

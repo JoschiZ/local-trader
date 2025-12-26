@@ -9,7 +9,7 @@ namespace LocalTrader.Shared.Api.Magic.Collection;
 public class UpdateCardRequest
 {
     [FromClaim(ClaimTypes.NameIdentifier), JsonIgnore]
-    public UserId UserId { get; init; } init; }
+    public UserId UserId { get; init; }
 
     [BindFrom("cardId"), RouteParam, JsonIgnore]
     public required CollectionMagicCardId CardId { get; set; }

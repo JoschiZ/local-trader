@@ -1,3 +1,4 @@
+using System;
 using System.Security.Claims;
 using System.Text.Json;
 using LocalTrader.Components.Account;
@@ -7,10 +8,12 @@ using LocalTrader.Data.Account;
 
 using Microsoft.AspNetCore.Antiforgery;
 using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Components.Authorization;
 using Microsoft.AspNetCore.Http.Extensions;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Routing;
 using Microsoft.Extensions.Primitives;
 
 namespace LocalTrader.Api.Account;

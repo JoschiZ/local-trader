@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using LocalTrader.Data.Magic;
 
 using LocalTrader.Shared.Data.Account;

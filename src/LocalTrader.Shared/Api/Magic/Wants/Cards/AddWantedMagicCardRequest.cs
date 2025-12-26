@@ -12,10 +12,10 @@ namespace LocalTrader.Shared.Api.Magic.Wants.Cards;
 public sealed class AddWantedMagicCardRequest
 {
     [FromClaim(ClaimTypes.NameIdentifier), JsonIgnore]
-    public UserId UserId { get; init; } init; }
+    public UserId UserId { get; init; }
     
     [BindFrom("wantListId"), RouteParam, JsonIgnore]
-    public MagicWantListId WantListId { get; init; } init; }
+    public MagicWantListId WantListId { get; init; }
     
     public required ScryfallId ScryfallId { get; set; }
     public required int Quantity { get; set; }
