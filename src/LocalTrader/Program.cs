@@ -11,7 +11,6 @@ using LocalTrader.Components.Account;
 using LocalTrader.Data;
 using LocalTrader.Data.Account;
 using LocalTrader.ServiceDefaults;
-using LocalTrader.Shared.Api;
 using LocalTrader.Shared.Aspire;
 using LocalTrader.Shared.Data.Magic.Cards;
 using Microsoft.AspNetCore.Authentication;
@@ -22,7 +21,6 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using MudBlazor.Services;
 using NJsonSchema.CodeGeneration.CSharp;
-using NSwag;
 using NSwag.Generation.Processors.Security;
 using Scalar.AspNetCore;
 using ScryfallApi.Client;
@@ -50,25 +48,6 @@ services.AddFastEndpoints(x =>
         x.DocumentSettings = settings =>
         {
             settings.MarkNonNullablePropsAsRequired();
-            
-            settings.AddSecurity(IdentityConstants.BearerScheme,
-                new OpenApiSecurityScheme
-                {
-                    Type = OpenApiSecuritySchemeType.Http,
-                    Scheme = "Bearer",
-                    Description = "JWT issued by your Identity provider.",
-                    AuthorizationUrl = ApiRoutes.Account.Login
-                }); 
-            
-            settings.AddSecurity(IdentityConstants.ApplicationScheme,
-                new OpenApiSecurityScheme
-                {
-                    Type = OpenApiSecuritySchemeType.ApiKey,
-                    Name = ".AspNetCore.Identity.Application",
-                    In = OpenApiSecurityApiKeyLocation.Header,
-                    Description = "Browser cookie set after login.",
-                    AuthorizationUrl = ApiRoutes.Account.Login
-                });
             settings.OperationProcessors.Add(new AspNetCoreOperationSecurityScopeProcessor());    
             settings.DocumentName = "v1";
             settings.SchemaSettings.RegisterTypeMappers<Program>();
@@ -90,15 +69,6 @@ builder.Services.AddRazorComponents()
 builder.Services.AddCascadingAuthenticationState();
 builder.Services.AddScoped<IdentityUserAccessor>();
 builder.Services.AddScoped<IdentityRedirectManager>();
-
-//builder
-//    .Services
-//    .AddAuthentication(options =>
-//    {
-//        options.DefaultScheme = IdentityConstants.ApplicationScheme;
-//        options.DefaultSignInScheme = IdentityConstants.ExternalScheme;
-//    })
-//    .AddIdentityCookies();
 
 services
     .AddAuthentication(AuthenticationConstants.CombinedSchema)

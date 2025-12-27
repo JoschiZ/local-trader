@@ -1,4 +1,7 @@
-﻿using NJsonSchema;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using NJsonSchema;
 using NJsonSchema.Generation;
 using NJsonSchema.Generation.TypeMappers;
 using StronglyTypedIds;
