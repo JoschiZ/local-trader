@@ -5,6 +5,7 @@ using FastEndpoints.Swagger;
 using FastEndpoints.ClientGen;
 using LocalTrader.Api.Account.Authentication;
 using LocalTrader.Api.Magic;
+using LocalTrader.Api.SwaggerConfiguration;
 using LocalTrader.Components;
 using LocalTrader.Components.Account;
 using LocalTrader.Data;
@@ -12,6 +13,7 @@ using LocalTrader.Data.Account;
 using LocalTrader.ServiceDefaults;
 using LocalTrader.Shared.Api;
 using LocalTrader.Shared.Aspire;
+using LocalTrader.Shared.Data.Magic.Cards;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Identity;
@@ -35,10 +37,16 @@ services.AddScoped<IMagicCardRepository, MagicCardRepository>();
 services.AddScryfallApiClient();
 
 
-services.AddFastEndpoints(x => { x.IncludeAbstractValidators = true; })
+services.AddFastEndpoints(x =>
+    {
+        x.IncludeAbstractValidators = true;
+    })
     .SwaggerDocument(x =>
     {
         x.EnableJWTBearerAuth = false;
+        x.RemoveEmptyRequestSchema = true;
+        x.ShortSchemaNames = true;
+        
         x.DocumentSettings = settings =>
         {
             settings.MarkNonNullablePropsAsRequired();
@@ -63,7 +71,10 @@ services.AddFastEndpoints(x => { x.IncludeAbstractValidators = true; })
                 });
             settings.OperationProcessors.Add(new AspNetCoreOperationSecurityScopeProcessor());    
             settings.DocumentName = "v1";
+            settings.SchemaSettings.RegisterTypeMappers<Program>();
+            settings.SchemaSettings.RegisterTypeMappers<ScryfallId>();
         };
+        
         
     });
 
@@ -157,13 +168,18 @@ app.UseFastEndpoints(x =>
     {
         x.Endpoints.RoutePrefix = "api";
         x.Endpoints.ShortNames = true;
+        x.Endpoints.PrefixNameWithFirstTag = true;
+
 
         x.Errors.UseProblemDetails(config => { config.IndicateErrorCode = true; });
 
         x.Versioning.Prefix = "v";
         x.Versioning.PrependToRoute = true;
     })
-    .UseSwaggerGen(x => { x.Path = "openapi/{documentName}.json"; });
+    .UseOpenApi(x =>
+    {
+        x.Path = "openapi/{documentName}.json";
+    });
 
 var path = Path.Combine(Directory.GetParent(Environment.CurrentDirectory)!.FullName, "LocalTrader.Client", "ApiClients");  
 await app.GenerateClientsAndExitAsync("v1", path, settings =>

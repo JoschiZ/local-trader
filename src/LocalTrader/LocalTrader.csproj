@@ -5,6 +5,7 @@
         <Nullable>enable</Nullable>
         <ImplicitUsings>enable</ImplicitUsings>
         <UserSecretsId>aspnet-LocalTrader-ce5cb9ed-4e17-4b81-8584-b6d8d113b7d2</UserSecretsId>
+        <DefineConstants>STRONGLY_TYPED_ID_USAGES</DefineConstants>
     </PropertyGroup>
 
 

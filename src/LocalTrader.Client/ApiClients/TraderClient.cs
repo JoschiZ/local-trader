@@ -76,7 +76,7 @@ namespace LocalTrader.Client.ApiClients
 
         /// <returns>Created</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual System.Threading.Tasks.Task CreateWantListEndpointAsync(LocalTraderSharedApiMagicWantsListsCreateWantListRequest createWantListRequest)
+        public virtual System.Threading.Tasks.Task CreateWantListEndpointAsync(CreateWantListRequest createWantListRequest)
         {
             return CreateWantListEndpointAsync(createWantListRequest, System.Threading.CancellationToken.None);
         }
@@ -84,7 +84,7 @@ namespace LocalTrader.Client.ApiClients
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>Created</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual async System.Threading.Tasks.Task CreateWantListEndpointAsync(LocalTraderSharedApiMagicWantsListsCreateWantListRequest createWantListRequest, System.Threading.CancellationToken cancellationToken)
+        public virtual async System.Threading.Tasks.Task CreateWantListEndpointAsync(CreateWantListRequest createWantListRequest, System.Threading.CancellationToken cancellationToken)
         {
             if (createWantListRequest == null)
                 throw new System.ArgumentNullException("createWantListRequest");
@@ -136,12 +136,12 @@ namespace LocalTrader.Client.ApiClients
                         else
                         if (status_ == 400)
                         {
-                            var objectResponse_ = await ReadObjectResponseAsync<FastEndpointsProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                            var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
                             if (objectResponse_.Object == null)
                             {
                                 throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
                             }
-                            throw new ApiException<FastEndpointsProblemDetails>("Bad Request", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
+                            throw new ApiException<ProblemDetails>("Bad Request", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
                         }
                         else
                         if (status_ == 401)
@@ -265,7 +265,7 @@ namespace LocalTrader.Client.ApiClients
 
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual System.Threading.Tasks.Task<LocalTraderSharedApiMagicWantsListsWantListDto> GetWantListEndpointAsync(string wantListId, string userId)
+        public virtual System.Threading.Tasks.Task<WantListDto> GetWantListEndpointAsync(string wantListId, System.Guid userId)
         {
             return GetWantListEndpointAsync(wantListId, userId, System.Threading.CancellationToken.None);
         }
@@ -273,7 +273,7 @@ namespace LocalTrader.Client.ApiClients
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual async System.Threading.Tasks.Task<LocalTraderSharedApiMagicWantsListsWantListDto> GetWantListEndpointAsync(string wantListId, string userId, System.Threading.CancellationToken cancellationToken)
+        public virtual async System.Threading.Tasks.Task<WantListDto> GetWantListEndpointAsync(string wantListId, System.Guid userId, System.Threading.CancellationToken cancellationToken)
         {
             if (wantListId == null)
                 throw new System.ArgumentNullException("wantListId");
@@ -324,7 +324,7 @@ namespace LocalTrader.Client.ApiClients
                         var status_ = (int)response_.StatusCode;
                         if (status_ == 200)
                         {
-                            var objectResponse_ = await ReadObjectResponseAsync<LocalTraderSharedApiMagicWantsListsWantListDto>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                            var objectResponse_ = await ReadObjectResponseAsync<WantListDto>(response_, headers_, cancellationToken).ConfigureAwait(false);
                             if (objectResponse_.Object == null)
                             {
                                 throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
@@ -334,12 +334,12 @@ namespace LocalTrader.Client.ApiClients
                         else
                         if (status_ == 400)
                         {
-                            var objectResponse_ = await ReadObjectResponseAsync<FastEndpointsProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                            var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
                             if (objectResponse_.Object == null)
                             {
                                 throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
                             }
-                            throw new ApiException<FastEndpointsProblemDetails>("Bad Request", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
+                            throw new ApiException<ProblemDetails>("Bad Request", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
                         }
                         else
                         if (status_ == 404)
@@ -369,7 +369,7 @@ namespace LocalTrader.Client.ApiClients
 
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual System.Threading.Tasks.Task UpdateWantListEndpointAsync(LocalTraderSharedApiMagicWantsListsUpdateWantListRequest updateWantListRequest, string wantListId)
+        public virtual System.Threading.Tasks.Task UpdateWantListEndpointAsync(UpdateWantListRequest updateWantListRequest, string wantListId)
         {
             return UpdateWantListEndpointAsync(updateWantListRequest, wantListId, System.Threading.CancellationToken.None);
         }
@@ -377,7 +377,7 @@ namespace LocalTrader.Client.ApiClients
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual async System.Threading.Tasks.Task UpdateWantListEndpointAsync(LocalTraderSharedApiMagicWantsListsUpdateWantListRequest updateWantListRequest, string wantListId, System.Threading.CancellationToken cancellationToken)
+        public virtual async System.Threading.Tasks.Task UpdateWantListEndpointAsync(UpdateWantListRequest updateWantListRequest, string wantListId, System.Threading.CancellationToken cancellationToken)
         {
             if (wantListId == null)
                 throw new System.ArgumentNullException("wantListId");
@@ -433,12 +433,12 @@ namespace LocalTrader.Client.ApiClients
                         else
                         if (status_ == 400)
                         {
-                            var objectResponse_ = await ReadObjectResponseAsync<FastEndpointsProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                            var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
                             if (objectResponse_.Object == null)
                             {
                                 throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
                             }
-                            throw new ApiException<FastEndpointsProblemDetails>("Bad Request", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
+                            throw new ApiException<ProblemDetails>("Bad Request", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
                         }
                         else
                         if (status_ == 401)
@@ -474,7 +474,7 @@ namespace LocalTrader.Client.ApiClients
 
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual System.Threading.Tasks.Task AddWantedMagicCardEndpointAsync(LocalTraderSharedApiMagicWantsCardsAddWantedMagicCardRequest addWantedMagicCardRequest, string wantListId)
+        public virtual System.Threading.Tasks.Task AddWantedMagicCardEndpointAsync(AddWantedMagicCardRequest addWantedMagicCardRequest, string wantListId)
         {
             return AddWantedMagicCardEndpointAsync(addWantedMagicCardRequest, wantListId, System.Threading.CancellationToken.None);
         }
@@ -482,7 +482,7 @@ namespace LocalTrader.Client.ApiClients
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual async System.Threading.Tasks.Task AddWantedMagicCardEndpointAsync(LocalTraderSharedApiMagicWantsCardsAddWantedMagicCardRequest addWantedMagicCardRequest, string wantListId, System.Threading.CancellationToken cancellationToken)
+        public virtual async System.Threading.Tasks.Task AddWantedMagicCardEndpointAsync(AddWantedMagicCardRequest addWantedMagicCardRequest, string wantListId, System.Threading.CancellationToken cancellationToken)
         {
             if (wantListId == null)
                 throw new System.ArgumentNullException("wantListId");
@@ -538,12 +538,12 @@ namespace LocalTrader.Client.ApiClients
                         else
                         if (status_ == 400)
                         {
-                            var objectResponse_ = await ReadObjectResponseAsync<FastEndpointsProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                            var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
                             if (objectResponse_.Object == null)
                             {
                                 throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
                             }
-                            throw new ApiException<FastEndpointsProblemDetails>("Bad Request", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
+                            throw new ApiException<ProblemDetails>("Bad Request", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
                         }
                         else
                         if (status_ == 401)
@@ -673,7 +673,7 @@ namespace LocalTrader.Client.ApiClients
 
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual System.Threading.Tasks.Task UpdateWantedCardAsync(LocalTraderSharedApiMagicWantsCardsUpdateWantedCardRequest updateWantedCardRequest, string wantedCardId)
+        public virtual System.Threading.Tasks.Task UpdateWantedCardAsync(UpdateWantedCardRequest updateWantedCardRequest, string wantedCardId)
         {
             return UpdateWantedCardAsync(updateWantedCardRequest, wantedCardId, System.Threading.CancellationToken.None);
         }
@@ -681,7 +681,7 @@ namespace LocalTrader.Client.ApiClients
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual async System.Threading.Tasks.Task UpdateWantedCardAsync(LocalTraderSharedApiMagicWantsCardsUpdateWantedCardRequest updateWantedCardRequest, string wantedCardId, System.Threading.CancellationToken cancellationToken)
+        public virtual async System.Threading.Tasks.Task UpdateWantedCardAsync(UpdateWantedCardRequest updateWantedCardRequest, string wantedCardId, System.Threading.CancellationToken cancellationToken)
         {
             if (wantedCardId == null)
                 throw new System.ArgumentNullException("wantedCardId");
@@ -737,12 +737,12 @@ namespace LocalTrader.Client.ApiClients
                         else
                         if (status_ == 400)
                         {
-                            var objectResponse_ = await ReadObjectResponseAsync<FastEndpointsProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                            var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
                             if (objectResponse_.Object == null)
                             {
                                 throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
                             }
-                            throw new ApiException<FastEndpointsProblemDetails>("Bad Request", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
+                            throw new ApiException<ProblemDetails>("Bad Request", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
                         }
                         else
                         if (status_ == 401)
@@ -778,7 +778,7 @@ namespace LocalTrader.Client.ApiClients
 
         /// <returns>Created</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual System.Threading.Tasks.Task AddCardEndpointAsync(LocalTraderSharedApiMagicCollectionAddMagicCardToCollectionRequest addMagicCardToCollectionRequest)
+        public virtual System.Threading.Tasks.Task AddCardEndpointAsync(AddMagicCardToCollectionRequest addMagicCardToCollectionRequest)
         {
             return AddCardEndpointAsync(addMagicCardToCollectionRequest, System.Threading.CancellationToken.None);
         }
@@ -786,7 +786,7 @@ namespace LocalTrader.Client.ApiClients
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>Created</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual async System.Threading.Tasks.Task AddCardEndpointAsync(LocalTraderSharedApiMagicCollectionAddMagicCardToCollectionRequest addMagicCardToCollectionRequest, System.Threading.CancellationToken cancellationToken)
+        public virtual async System.Threading.Tasks.Task AddCardEndpointAsync(AddMagicCardToCollectionRequest addMagicCardToCollectionRequest, System.Threading.CancellationToken cancellationToken)
         {
             if (addMagicCardToCollectionRequest == null)
                 throw new System.ArgumentNullException("addMagicCardToCollectionRequest");
@@ -963,7 +963,7 @@ namespace LocalTrader.Client.ApiClients
 
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual System.Threading.Tasks.Task UpdateCardEndpointAsync(LocalTraderSharedApiMagicCollectionUpdateCardRequest updateCardRequest, string cardId)
+        public virtual System.Threading.Tasks.Task UpdateCardEndpointAsync(UpdateCardRequest updateCardRequest, string cardId)
         {
             return UpdateCardEndpointAsync(updateCardRequest, cardId, System.Threading.CancellationToken.None);
         }
@@ -971,7 +971,7 @@ namespace LocalTrader.Client.ApiClients
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual async System.Threading.Tasks.Task UpdateCardEndpointAsync(LocalTraderSharedApiMagicCollectionUpdateCardRequest updateCardRequest, string cardId, System.Threading.CancellationToken cancellationToken)
+        public virtual async System.Threading.Tasks.Task UpdateCardEndpointAsync(UpdateCardRequest updateCardRequest, string cardId, System.Threading.CancellationToken cancellationToken)
         {
             if (cardId == null)
                 throw new System.ArgumentNullException("cardId");
@@ -1058,7 +1058,7 @@ namespace LocalTrader.Client.ApiClients
 
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual System.Threading.Tasks.Task<MicrosoftAspNetCoreAuthenticationBearerTokenAccessTokenResponse> LoginEndpointAsync(LocalTraderApiAccountLoginEndpoint_Request request, bool? useCookies, bool? useSessionCookies)
+        public virtual System.Threading.Tasks.Task<AccessTokenResponse> LoginEndpointAsync(LoginEndpoint_Request request, bool? useCookies, bool? useSessionCookies)
         {
             return LoginEndpointAsync(request, useCookies, useSessionCookies, System.Threading.CancellationToken.None);
         }
@@ -1066,7 +1066,7 @@ namespace LocalTrader.Client.ApiClients
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual async System.Threading.Tasks.Task<MicrosoftAspNetCoreAuthenticationBearerTokenAccessTokenResponse> LoginEndpointAsync(LocalTraderApiAccountLoginEndpoint_Request request, bool? useCookies, bool? useSessionCookies, System.Threading.CancellationToken cancellationToken)
+        public virtual async System.Threading.Tasks.Task<AccessTokenResponse> LoginEndpointAsync(LoginEndpoint_Request request, bool? useCookies, bool? useSessionCookies, System.Threading.CancellationToken cancellationToken)
         {
             if (request == null)
                 throw new System.ArgumentNullException("request");
@@ -1124,7 +1124,7 @@ namespace LocalTrader.Client.ApiClients
                         var status_ = (int)response_.StatusCode;
                         if (status_ == 200)
                         {
-                            var objectResponse_ = await ReadObjectResponseAsync<MicrosoftAspNetCoreAuthenticationBearerTokenAccessTokenResponse>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                            var objectResponse_ = await ReadObjectResponseAsync<AccessTokenResponse>(response_, headers_, cancellationToken).ConfigureAwait(false);
                             if (objectResponse_.Object == null)
                             {
                                 throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
@@ -1153,7 +1153,7 @@ namespace LocalTrader.Client.ApiClients
 
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual System.Threading.Tasks.Task LogoutEndpointAsync(LocalTraderApiAccountLogoutEndpoint_Request request)
+        public virtual System.Threading.Tasks.Task LogoutEndpointAsync(LogoutEndpoint_Request request)
         {
             return LogoutEndpointAsync(request, System.Threading.CancellationToken.None);
         }
@@ -1161,7 +1161,7 @@ namespace LocalTrader.Client.ApiClients
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual async System.Threading.Tasks.Task LogoutEndpointAsync(LocalTraderApiAccountLogoutEndpoint_Request request, System.Threading.CancellationToken cancellationToken)
+        public virtual async System.Threading.Tasks.Task LogoutEndpointAsync(LogoutEndpoint_Request request, System.Threading.CancellationToken cancellationToken)
         {
             if (request == null)
                 throw new System.ArgumentNullException("request");
@@ -1316,7 +1316,7 @@ namespace LocalTrader.Client.ApiClients
 
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual System.Threading.Tasks.Task PasskeyRequestOptionsEndpointAsync(LocalTraderApiAccountPasskeyRequestOptionsEndpoint_Request request)
+        public virtual System.Threading.Tasks.Task PasskeyRequestOptionsEndpointAsync(PasskeyRequestOptionsEndpoint_Request request)
         {
             return PasskeyRequestOptionsEndpointAsync(request, System.Threading.CancellationToken.None);
         }
@@ -1324,7 +1324,7 @@ namespace LocalTrader.Client.ApiClients
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual async System.Threading.Tasks.Task PasskeyRequestOptionsEndpointAsync(LocalTraderApiAccountPasskeyRequestOptionsEndpoint_Request request, System.Threading.CancellationToken cancellationToken)
+        public virtual async System.Threading.Tasks.Task PasskeyRequestOptionsEndpointAsync(PasskeyRequestOptionsEndpoint_Request request, System.Threading.CancellationToken cancellationToken)
         {
             if (request == null)
                 throw new System.ArgumentNullException("request");
@@ -1396,7 +1396,7 @@ namespace LocalTrader.Client.ApiClients
 
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual System.Threading.Tasks.Task PerformExternalLoginEndpointAsync(LocalTraderApiAccountPerformExternalLoginEndpoint_Request request)
+        public virtual System.Threading.Tasks.Task PerformExternalLoginEndpointAsync(PerformExternalLoginEndpoint_Request request)
         {
             return PerformExternalLoginEndpointAsync(request, System.Threading.CancellationToken.None);
         }
@@ -1404,7 +1404,7 @@ namespace LocalTrader.Client.ApiClients
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual async System.Threading.Tasks.Task PerformExternalLoginEndpointAsync(LocalTraderApiAccountPerformExternalLoginEndpoint_Request request, System.Threading.CancellationToken cancellationToken)
+        public virtual async System.Threading.Tasks.Task PerformExternalLoginEndpointAsync(PerformExternalLoginEndpoint_Request request, System.Threading.CancellationToken cancellationToken)
         {
             if (request == null)
                 throw new System.ArgumentNullException("request");
@@ -1564,14 +1564,14 @@ namespace LocalTrader.Client.ApiClients
         }
 
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual System.Threading.Tasks.Task LinkExternalLoginEndpointAsync(LocalTraderApiAccountManageLinkExternalLoginEndpoint_Request request)
+        public virtual System.Threading.Tasks.Task LinkExternalLoginEndpointAsync(LinkExternalLoginEndpoint_Request request)
         {
             return LinkExternalLoginEndpointAsync(request, System.Threading.CancellationToken.None);
         }
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual async System.Threading.Tasks.Task LinkExternalLoginEndpointAsync(LocalTraderApiAccountManageLinkExternalLoginEndpoint_Request request, System.Threading.CancellationToken cancellationToken)
+        public virtual async System.Threading.Tasks.Task LinkExternalLoginEndpointAsync(LinkExternalLoginEndpoint_Request request, System.Threading.CancellationToken cancellationToken)
         {
             if (request == null)
                 throw new System.ArgumentNullException("request");
@@ -1779,7 +1779,7 @@ namespace LocalTrader.Client.ApiClients
     }
 
     [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "14.6.2.0 (NJsonSchema v11.5.2.0 (Newtonsoft.Json v13.0.0.0))")]
-    public partial class LocalTraderSharedApiMagicWantsListsCreateWantListRequest
+    public partial class CreateWantListRequest
     {
 
         [System.Text.Json.Serialization.JsonPropertyName("name")]
@@ -1789,13 +1789,13 @@ namespace LocalTrader.Client.ApiClients
 
         [System.Text.Json.Serialization.JsonPropertyName("accessibility")]
         [System.ComponentModel.DataAnnotations.Required(AllowEmptyStrings = true)]
-        [System.Text.Json.Serialization.JsonConverter(typeof(System.Text.Json.Serialization.JsonStringEnumConverter<LocalTraderSharedApiMagicWantsListsAccessibility>))]
-        public required LocalTraderSharedApiMagicWantsListsAccessibility Accessibility { get; set; }
+        [System.Text.Json.Serialization.JsonConverter(typeof(System.Text.Json.Serialization.JsonStringEnumConverter<Accessibility>))]
+        public required Accessibility Accessibility { get; set; }
 
     }
 
     [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "14.6.2.0 (NJsonSchema v11.5.2.0 (Newtonsoft.Json v13.0.0.0))")]
-    public enum LocalTraderSharedApiMagicWantsListsAccessibility
+    public enum Accessibility
     {
 
         [System.Text.Json.Serialization.JsonStringEnumMemberName(@"Public")]
@@ -1811,7 +1811,7 @@ namespace LocalTrader.Client.ApiClients
     /// <br/>app.UseFastEndpoints(c =&gt; c.Errors.UseProblemDetails())
     /// </summary>
     [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "14.6.2.0 (NJsonSchema v11.5.2.0 (Newtonsoft.Json v13.0.0.0))")]
-    public partial class FastEndpointsProblemDetails
+    public partial class ProblemDetails
     {
 
         [System.Text.Json.Serialization.JsonPropertyName("type")]
@@ -1841,7 +1841,7 @@ namespace LocalTrader.Client.ApiClients
 
         [System.Text.Json.Serialization.JsonPropertyName("errors")]
         [System.ComponentModel.DataAnnotations.Required]
-        public required System.Collections.Generic.ICollection<FastEndpointsProblemDetails_Error> Errors { get; set; }
+        public required System.Collections.Generic.ICollection<ProblemDetails_Error> Errors { get; set; }
 
     }
 
@@ -1849,7 +1849,7 @@ namespace LocalTrader.Client.ApiClients
     /// the error details object
     /// </summary>
     [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "14.6.2.0 (NJsonSchema v11.5.2.0 (Newtonsoft.Json v13.0.0.0))")]
-    public partial class FastEndpointsProblemDetails_Error
+    public partial class ProblemDetails_Error
     {
 
         /// <summary>
@@ -1881,13 +1881,7 @@ namespace LocalTrader.Client.ApiClients
     }
 
     [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "14.6.2.0 (NJsonSchema v11.5.2.0 (Newtonsoft.Json v13.0.0.0))")]
-    public partial class LocalTraderSharedApiMagicWantsListsDeleteWantListRequest
-    {
-
-    }
-
-    [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "14.6.2.0 (NJsonSchema v11.5.2.0 (Newtonsoft.Json v13.0.0.0))")]
-    public partial class LocalTraderSharedApiMagicWantsListsWantListDto
+    public partial class WantListDto
     {
 
         [System.Text.Json.Serialization.JsonPropertyName("name")]
@@ -1896,30 +1890,39 @@ namespace LocalTrader.Client.ApiClients
 
         [System.Text.Json.Serialization.JsonPropertyName("owner")]
         [System.ComponentModel.DataAnnotations.Required(AllowEmptyStrings = true)]
-        public required string Owner { get; set; }
+        public required System.Guid Owner { get; set; }
 
         [System.Text.Json.Serialization.JsonPropertyName("accessibility")]
         [System.ComponentModel.DataAnnotations.Required(AllowEmptyStrings = true)]
-        [System.Text.Json.Serialization.JsonConverter(typeof(System.Text.Json.Serialization.JsonStringEnumConverter<LocalTraderSharedApiMagicWantsListsAccessibility>))]
-        public required LocalTraderSharedApiMagicWantsListsAccessibility Accessibility { get; set; }
+        [System.Text.Json.Serialization.JsonConverter(typeof(System.Text.Json.Serialization.JsonStringEnumConverter<Accessibility>))]
+        public required Accessibility Accessibility { get; set; }
 
         [System.Text.Json.Serialization.JsonPropertyName("wantedCards")]
         [System.ComponentModel.DataAnnotations.Required]
-        public required System.Collections.Generic.ICollection<LocalTraderSharedApiMagicWantsCardsWantedMagicCardDto> WantedCards { get; set; }
+        public required System.Collections.Generic.ICollection<WantedMagicCardDto> WantedCards { get; set; }
 
     }
 
     [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "14.6.2.0 (NJsonSchema v11.5.2.0 (Newtonsoft.Json v13.0.0.0))")]
-    public partial class LocalTraderSharedApiMagicWantsCardsWantedMagicCardDto : LocalTraderSharedApiMagicWantsCardsWantedCardDto
+    public partial class WantedMagicCardDto
     {
 
-        [System.Text.Json.Serialization.JsonPropertyName("cardId")]
+        [System.Text.Json.Serialization.JsonPropertyName("name")]
         [System.ComponentModel.DataAnnotations.Required(AllowEmptyStrings = true)]
-        public required string CardId { get; set; }
+        public required string Name { get; set; }
+
+        [System.Text.Json.Serialization.JsonPropertyName("id")]
+        public required int Id { get; set; }
+
+        [System.Text.Json.Serialization.JsonPropertyName("minimumCondition")]
+        public required CardCondition MinimumCondition { get; set; }
+
+        [System.Text.Json.Serialization.JsonPropertyName("cardId")]
+        public required int CardId { get; set; }
 
         [System.Text.Json.Serialization.JsonPropertyName("scryfallId")]
         [System.ComponentModel.DataAnnotations.Required(AllowEmptyStrings = true)]
-        public required string ScryfallId { get; set; }
+        public required System.Guid ScryfallId { get; set; }
 
         [System.Text.Json.Serialization.JsonPropertyName("scryfallLink")]
         [System.ComponentModel.DataAnnotations.Required(AllowEmptyStrings = true)]
@@ -1928,24 +1931,7 @@ namespace LocalTrader.Client.ApiClients
     }
 
     [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "14.6.2.0 (NJsonSchema v11.5.2.0 (Newtonsoft.Json v13.0.0.0))")]
-    public abstract partial class LocalTraderSharedApiMagicWantsCardsWantedCardDto
-    {
-
-        [System.Text.Json.Serialization.JsonPropertyName("name")]
-        [System.ComponentModel.DataAnnotations.Required(AllowEmptyStrings = true)]
-        public required string Name { get; set; }
-
-        [System.Text.Json.Serialization.JsonPropertyName("id")]
-        [System.ComponentModel.DataAnnotations.Required(AllowEmptyStrings = true)]
-        public required string Id { get; set; }
-
-        [System.Text.Json.Serialization.JsonPropertyName("minimumCondition")]
-        public required LocalTraderSharedDataSharedCardCondition MinimumCondition { get; set; }
-
-    }
-
-    [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "14.6.2.0 (NJsonSchema v11.5.2.0 (Newtonsoft.Json v13.0.0.0))")]
-    public enum LocalTraderSharedDataSharedCardCondition
+    public enum CardCondition
     {
 
         Mint = 0,
@@ -1965,13 +1951,7 @@ namespace LocalTrader.Client.ApiClients
     }
 
     [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "14.6.2.0 (NJsonSchema v11.5.2.0 (Newtonsoft.Json v13.0.0.0))")]
-    public partial class LocalTraderSharedApiMagicWantsListsGetWantListRequest
-    {
-
-    }
-
-    [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "14.6.2.0 (NJsonSchema v11.5.2.0 (Newtonsoft.Json v13.0.0.0))")]
-    public partial class LocalTraderSharedApiMagicWantsListsUpdateWantListRequest
+    public partial class UpdateWantListRequest
     {
 
         [System.Text.Json.Serialization.JsonPropertyName("name")]
@@ -1979,36 +1959,30 @@ namespace LocalTrader.Client.ApiClients
         public string? Name { get; set; }
 
         [System.Text.Json.Serialization.JsonPropertyName("accessibility")]
-        [System.Text.Json.Serialization.JsonConverter(typeof(System.Text.Json.Serialization.JsonStringEnumConverter<LocalTraderSharedApiMagicWantsListsAccessibility>))]
-        public LocalTraderSharedApiMagicWantsListsAccessibility? Accessibility { get; set; }
+        [System.Text.Json.Serialization.JsonConverter(typeof(System.Text.Json.Serialization.JsonStringEnumConverter<Accessibility>))]
+        public Accessibility? Accessibility { get; set; }
 
     }
 
     [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "14.6.2.0 (NJsonSchema v11.5.2.0 (Newtonsoft.Json v13.0.0.0))")]
-    public partial class LocalTraderSharedApiMagicWantsCardsAddWantedMagicCardRequest
+    public partial class AddWantedMagicCardRequest
     {
 
         [System.Text.Json.Serialization.JsonPropertyName("scryfallId")]
         [System.ComponentModel.DataAnnotations.Required(AllowEmptyStrings = true)]
-        public required string ScryfallId { get; set; }
+        public required System.Guid ScryfallId { get; set; }
 
         [System.Text.Json.Serialization.JsonPropertyName("quantity")]
         [System.ComponentModel.DataAnnotations.Range(2, int.MaxValue)]
         public required int Quantity { get; set; }
 
         [System.Text.Json.Serialization.JsonPropertyName("minimumCondition")]
-        public required LocalTraderSharedDataSharedCardCondition MinimumCondition { get; set; }
+        public required CardCondition MinimumCondition { get; set; }
 
     }
 
     [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "14.6.2.0 (NJsonSchema v11.5.2.0 (Newtonsoft.Json v13.0.0.0))")]
-    public partial class LocalTraderSharedApiMagicWantsCardsRemoveWantedCardRequest
-    {
-
-    }
-
-    [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "14.6.2.0 (NJsonSchema v11.5.2.0 (Newtonsoft.Json v13.0.0.0))")]
-    public partial class LocalTraderSharedApiMagicWantsCardsUpdateWantedCardRequest
+    public partial class UpdateWantedCardRequest
     {
 
         [System.Text.Json.Serialization.JsonPropertyName("quantity")]
@@ -2016,34 +1990,28 @@ namespace LocalTrader.Client.ApiClients
         public int? Quantity { get; set; }
 
         [System.Text.Json.Serialization.JsonPropertyName("minimumCondition")]
-        public LocalTraderSharedDataSharedCardCondition? MinimumCondition { get; set; }
+        public CardCondition? MinimumCondition { get; set; }
 
     }
 
     [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "14.6.2.0 (NJsonSchema v11.5.2.0 (Newtonsoft.Json v13.0.0.0))")]
-    public partial class LocalTraderSharedApiMagicCollectionAddMagicCardToCollectionRequest
+    public partial class AddMagicCardToCollectionRequest
     {
 
         [System.Text.Json.Serialization.JsonPropertyName("scryfallId")]
         [System.ComponentModel.DataAnnotations.Required(AllowEmptyStrings = true)]
-        public required string ScryfallId { get; set; }
+        public required System.Guid ScryfallId { get; set; }
 
         [System.Text.Json.Serialization.JsonPropertyName("quantity")]
         public required int Quantity { get; set; }
 
         [System.Text.Json.Serialization.JsonPropertyName("cardCondition")]
-        public required LocalTraderSharedDataSharedCardCondition CardCondition { get; set; }
+        public required CardCondition CardCondition { get; set; }
 
     }
 
     [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "14.6.2.0 (NJsonSchema v11.5.2.0 (Newtonsoft.Json v13.0.0.0))")]
-    public partial class LocalTraderApiMagicCollectionDeleteCardEndpoint_Request
-    {
-
-    }
-
-    [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "14.6.2.0 (NJsonSchema v11.5.2.0 (Newtonsoft.Json v13.0.0.0))")]
-    public partial class LocalTraderSharedApiMagicCollectionUpdateCardRequest
+    public partial class UpdateCardRequest
     {
 
         [System.Text.Json.Serialization.JsonPropertyName("quantity")]
@@ -2052,7 +2020,7 @@ namespace LocalTrader.Client.ApiClients
     }
 
     [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "14.6.2.0 (NJsonSchema v11.5.2.0 (Newtonsoft.Json v13.0.0.0))")]
-    public partial class MicrosoftAspNetCoreAuthenticationBearerTokenAccessTokenResponse
+    public partial class AccessTokenResponse
     {
 
         [System.Text.Json.Serialization.JsonPropertyName("tokenType")]
@@ -2073,7 +2041,7 @@ namespace LocalTrader.Client.ApiClients
     }
 
     [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "14.6.2.0 (NJsonSchema v11.5.2.0 (Newtonsoft.Json v13.0.0.0))")]
-    public partial class LocalTraderApiAccountLoginEndpoint_Request
+    public partial class LoginEndpoint_Request
     {
 
         [System.Text.Json.Serialization.JsonPropertyName("email")]
@@ -2093,7 +2061,7 @@ namespace LocalTrader.Client.ApiClients
     }
 
     [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "14.6.2.0 (NJsonSchema v11.5.2.0 (Newtonsoft.Json v13.0.0.0))")]
-    public partial class LocalTraderApiAccountLogoutEndpoint_Request
+    public partial class LogoutEndpoint_Request
     {
 
         [System.Text.Json.Serialization.JsonPropertyName("returnUrl")]
@@ -2103,7 +2071,7 @@ namespace LocalTrader.Client.ApiClients
     }
 
     [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "14.6.2.0 (NJsonSchema v11.5.2.0 (Newtonsoft.Json v13.0.0.0))")]
-    public partial class LocalTraderApiAccountPasskeyRequestOptionsEndpoint_Request
+    public partial class PasskeyRequestOptionsEndpoint_Request
     {
 
         [System.Text.Json.Serialization.JsonPropertyName("username")]
@@ -2113,7 +2081,7 @@ namespace LocalTrader.Client.ApiClients
     }
 
     [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "14.6.2.0 (NJsonSchema v11.5.2.0 (Newtonsoft.Json v13.0.0.0))")]
-    public partial class LocalTraderApiAccountPerformExternalLoginEndpoint_Request
+    public partial class PerformExternalLoginEndpoint_Request
     {
 
         [System.Text.Json.Serialization.JsonPropertyName("provider")]
@@ -2127,7 +2095,7 @@ namespace LocalTrader.Client.ApiClients
     }
 
     [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "14.6.2.0 (NJsonSchema v11.5.2.0 (Newtonsoft.Json v13.0.0.0))")]
-    public partial class LocalTraderApiAccountManageLinkExternalLoginEndpoint_Request
+    public partial class LinkExternalLoginEndpoint_Request
     {
 
         [System.Text.Json.Serialization.JsonPropertyName("provider")]
