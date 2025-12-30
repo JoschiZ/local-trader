@@ -140,7 +140,6 @@ app.UseFastEndpoints(x =>
         x.Endpoints.ShortNames = true;
         x.Endpoints.PrefixNameWithFirstTag = true;
 
-
         x.Errors.UseProblemDetails(config => { config.IndicateErrorCode = true; });
 
         x.Versioning.Prefix = "v";

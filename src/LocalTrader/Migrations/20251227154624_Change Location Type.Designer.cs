@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using LocalTrader.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -12,9 +13,11 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace LocalTrader.Migrations
 {
     [DbContext(typeof(TraderContext))]
-    partial class TraderContextModelSnapshot : ModelSnapshot
+    [Migration("20251227154624_Change Location Type")]
+    partial class ChangeLocationType
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -30,9 +33,6 @@ namespace LocalTrader.Migrations
 
                     b.Property<int>("AccessFailedCount")
                         .HasColumnType("integer");
-
-                    b.Property<decimal?>("ActionRadius")
-                        .HasColumnType("numeric");
 
                     b.Property<string>("ConcurrencyStamp")
                         .IsConcurrencyToken()
@@ -84,15 +84,12 @@ namespace LocalTrader.Migrations
                         .HasMaxLength(256)
                         .HasColumnType("character varying(256)");
 
-                    b.ComplexProperty(typeof(Dictionary<string, object>), "Location", "LocalTrader.Data.Account.User.Location#ActionRadius", b1 =>
+                    b.ComplexProperty(typeof(Dictionary<string, object>), "Location", "LocalTrader.Data.Account.User.Location#Location", b1 =>
                         {
                             b1.Property<decimal>("Langitude")
                                 .HasColumnType("numeric");
 
                             b1.Property<decimal>("Latitude")
-                                .HasColumnType("numeric");
-
-                            b1.Property<decimal>("Radius")
                                 .HasColumnType("numeric");
                         });
 

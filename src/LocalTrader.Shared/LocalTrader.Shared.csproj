@@ -16,6 +16,8 @@
     </ItemGroup>
 
     <ItemGroup>
+      <AdditionalFiles Include="decimal-efcore.typedid" />
+      <AdditionalFiles Include="decimal.typedid" />
       <AdditionalFiles Include="guid-v7.typedid" />
     </ItemGroup>
 

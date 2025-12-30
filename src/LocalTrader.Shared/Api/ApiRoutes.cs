@@ -33,6 +33,8 @@ public static class ApiRoutes
                 public static readonly Expression<Func<UpdateWantedCardRequest, object>> UpdateBinding = x => new { x.WantedMagicCardId };
                 public const string Add = RoutePrefix +"want-lists/{@id}";
                 public static readonly Expression<Func<AddWantedMagicCardRequest, object>> AddBinding = x => new { x.WantListId };
+                
+                public const string SearchForAvailableCards = RoutePrefix + "want-lists/cards/{@id}/search-available";
             }
         }
         public static class Collection
@@ -51,6 +53,7 @@ public static class ApiRoutes
         public const string GetPasskeyCreationOptions = "Account/PasskeyCreationOptions";
         public const string PasskeyRequestOptions = "Account/PasskeyRequestOptions";
         public const string Login = "Account/login";
+        public const string SetLocation = "Account/location";
 
         public static class Manage
         {
