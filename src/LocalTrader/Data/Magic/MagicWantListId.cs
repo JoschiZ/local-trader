@@ -1,6 +1,6 @@
 using StronglyTypedIds;
 
-namespace LocalTrader.Shared.Api.Magic.Wants.Lists;
+namespace LocalTrader.Data.Magic;
 
 [StronglyTypedId]
 public readonly partial struct MagicWantListId;

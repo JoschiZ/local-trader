@@ -1,6 +1,6 @@
 ﻿using StronglyTypedIds;
 
-namespace LocalTrader.Shared.Data.Magic.Collection;
+namespace LocalTrader.Data.Magic;
 
 [StronglyTypedId]
 public readonly partial struct CollectionMagicCardId;

@@ -1,15 +1,20 @@
+using System.Linq;
+using System.Security.Claims;
+using System.Threading;
+using System.Threading.Tasks;
 using FastEndpoints;
-using LocalTrader.Api.Account;
+using FluentValidation;
 using LocalTrader.Data;
 using LocalTrader.Shared.Api;
-
-using LocalTrader.Shared.Api.Magic.Wants.Lists;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.EntityFrameworkCore;
+using MagicWantListId = LocalTrader.Data.Magic.MagicWantListId;
+using UserId = LocalTrader.Data.Account.UserId;
 
 namespace LocalTrader.Api.Magic.Wants.Lists;
 
-internal sealed class UpdateWantListEndpoint : Endpoint<UpdateWantListRequest, Results<Ok, NotFound, UnauthorizedHttpResult>>
+internal sealed class UpdateWantListEndpoint : Endpoint<UpdateWantListEndpoint.Request, Results<Ok, NotFound, UnauthorizedHttpResult>>
 {
     private readonly TraderContext _context;
 
@@ -20,10 +25,10 @@ internal sealed class UpdateWantListEndpoint : Endpoint<UpdateWantListRequest, R
 
     public override void Configure()
     {
-        Patch(ApiRoutes.Magic.Wants.Lists.Update, ApiRoutes.Magic.Wants.Lists.UpdateBinding);
+        Patch(ApiRoutes.Magic.Wants.Lists.Update, x => new {x.Id});
     }
 
-    public override async Task<Results<Ok, NotFound, UnauthorizedHttpResult>> ExecuteAsync(UpdateWantListRequest req, CancellationToken ct)
+    public override async Task<Results<Ok, NotFound, UnauthorizedHttpResult>> ExecuteAsync(Request req, CancellationToken ct)
     {
         var existingList = await _context
             .Magic
@@ -42,5 +47,24 @@ internal sealed class UpdateWantListEndpoint : Endpoint<UpdateWantListRequest, R
 
         await _context.SaveChangesAsync(ct).ConfigureAwait(false);
         return TypedResults.Ok();
+    }
+    
+    public sealed class Request
+    {
+        [BindFrom("wantListId"), RouteParam]
+        public MagicWantListId Id { get; init; }
+        [FromClaim(ClaimTypes.NameIdentifier)]
+        public UserId UserId { get; init; }
+
+        public string? Name { get; set; }
+        public WantListAccessibility? Accessibility { get; set; }
+    }
+
+    public sealed class UpdateWantListRequestValidator : AbstractValidator<Request>
+    {
+        public UpdateWantListRequestValidator()
+        {
+            RuleFor(x => x.Name).MinimumLength(5).MaximumLength(50);
+        }
     }
 }

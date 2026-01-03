@@ -1,4 +1,5 @@
-﻿@if (!string.IsNullOrEmpty(DisplayMessage))
+﻿@using Microsoft.AspNetCore.Http
+@if (!string.IsNullOrEmpty(DisplayMessage))
 {
     var severity = DisplayMessage.StartsWith("Error") ? Severity.Error : Severity.Success;
 

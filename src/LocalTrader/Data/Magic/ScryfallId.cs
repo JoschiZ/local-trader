@@ -1,6 +1,6 @@
 ﻿using StronglyTypedIds;
 
-namespace LocalTrader.Shared.Data.Magic.Cards;
+namespace LocalTrader.Data.Magic;
 
 [StronglyTypedId(Template.Guid, "guid-efcore")]
 public readonly partial struct ScryfallId;

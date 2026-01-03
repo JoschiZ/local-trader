@@ -1,6 +1,7 @@
 using LocalTrader.Data.Magic;
-using LocalTrader.Shared.Data.Magic.Cards;
+
 using ScryfallApi.Client.Models;
+using ScryfallId = LocalTrader.Data.Magic.ScryfallId;
 
 namespace LocalTrader.Api.Magic;
 

@@ -1,11 +1,4 @@
 using LocalTrader.Data.Account;
-
-
-using LocalTrader.Shared.Data.Account;
-
-using LocalTrader.Shared.Data.Magic.Cards;
-using LocalTrader.Shared.Data.Magic.Collection;
-using LocalTrader.Shared.Data.Shared;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 

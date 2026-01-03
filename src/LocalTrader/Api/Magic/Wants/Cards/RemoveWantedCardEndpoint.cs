@@ -1,14 +1,19 @@
+using System.Linq;
+using System.Security.Claims;
+using System.Threading;
+using System.Threading.Tasks;
 using FastEndpoints;
 using LocalTrader.Data;
 using LocalTrader.Shared.Api;
-
-using LocalTrader.Shared.Api.Magic.Wants.Cards;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.EntityFrameworkCore;
+using UserId = LocalTrader.Data.Account.UserId;
+using WantedMagicCardId = LocalTrader.Data.Magic.WantedMagicCardId;
 
 namespace LocalTrader.Api.Magic.Wants.Cards;
 
-internal sealed class RemoveWantedCardEndpoint : Endpoint<RemoveWantedCardRequest, Results<NoContent, NotFound>>
+internal sealed class RemoveWantedCardEndpoint : Endpoint<RemoveWantedCardEndpoint.Request, Results<NoContent, NotFound>>
 {
     private readonly TraderContext _context;
 
@@ -19,10 +24,10 @@ internal sealed class RemoveWantedCardEndpoint : Endpoint<RemoveWantedCardReques
 
     public override void Configure()
     {
-        Delete(ApiRoutes.Magic.Wants.Cards.Remove, ApiRoutes.Magic.Wants.Cards.RemoveBinding);
+        Delete(ApiRoutes.Magic.Wants.Cards.Remove,x => new {x.WantedMagicCardId});
     }
 
-    public override async Task<Results<NoContent, NotFound>> ExecuteAsync(RemoveWantedCardRequest req, CancellationToken ct)
+    public override async Task<Results<NoContent, NotFound>> ExecuteAsync(Request req, CancellationToken ct)
     {
         var deletedCount = await _context
             .Magic
@@ -33,5 +38,13 @@ internal sealed class RemoveWantedCardEndpoint : Endpoint<RemoveWantedCardReques
             .ConfigureAwait(false);
 
         return deletedCount > 0 ? TypedResults.NoContent() : TypedResults.NotFound();
+    }
+    
+    public sealed class Request
+    {
+        [FromClaim(ClaimTypes.NameIdentifier)]
+        public UserId UserId { get; set; }
+        [BindFrom("wantedCardId"),RouteParam]
+        public required WantedMagicCardId WantedMagicCardId { get; set; }
     }
 }

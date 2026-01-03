@@ -16,12 +16,6 @@
     </ItemGroup>
 
     <ItemGroup>
-      <AdditionalFiles Include="decimal-efcore.typedid" />
-      <AdditionalFiles Include="decimal.typedid" />
-      <AdditionalFiles Include="guid-v7.typedid" />
-    </ItemGroup>
-
-    <ItemGroup>
       <ProjectReference Include="..\LocalTrader.Generators\LocalTrader.Generators\LocalTrader.Generators.csproj"  OutputItemType="Analyzer" ReferenceOutputAssembly="false"/>
     </ItemGroup>
 

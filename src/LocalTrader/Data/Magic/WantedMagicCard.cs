@@ -1,8 +1,3 @@
-using LocalTrader.Shared.Api.Magic.Wants.Cards;
-using LocalTrader.Shared.Api.Magic.Wants.Lists;
-
-using LocalTrader.Shared.Data.Magic.Cards;
-using LocalTrader.Shared.Data.Shared;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 

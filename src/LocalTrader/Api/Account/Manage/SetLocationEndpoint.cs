@@ -1,15 +1,18 @@
-﻿using System.Security.Claims;
+﻿using System.Linq;
+using System.Security.Claims;
 using System.Text.Json.Serialization;
+using System.Threading;
+using System.Threading.Tasks;
 using FastEndpoints;
 using JetBrains.Annotations;
 using LocalTrader.Data;
-using LocalTrader.Data.Account;
 using LocalTrader.Shared.Api;
 using LocalTrader.Shared.Constants;
 using LocalTrader.Shared.Data.Account;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Http.HttpResults;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using UserId = LocalTrader.Data.Account.UserId;
 
 namespace LocalTrader.Api.Account.Manage;
 
@@ -39,8 +42,7 @@ internal sealed class SetLocationEndpoint : Endpoint<SetLocationEndpoint.Request
             return TypedResults.NotFound();
         }
         
-        user.Location = user.Location == req.Location ? user.Location : req.Location;
-        user.ActionRadius = req.ActionRadius;
+        user.Location = user.Location == req.ActionRadius ? user.Location : req.ActionRadius;
         await _context.SaveChangesAsync(ct).ConfigureAwait(false);
         return TypedResults.Ok();
     }
@@ -51,8 +53,14 @@ internal sealed class SetLocationEndpoint : Endpoint<SetLocationEndpoint.Request
         [FromClaim(ClaimTypes.NameIdentifier), JsonIgnore]
         public UserId UserId { get; set; } 
         
-        public required ActionRadius Location { get; set; }
-        public required Kilometers ActionRadius { get; set; }
+        public required ActionRadius ActionRadius { get; set; }
     }
-    
+
+    public sealed class RequestValidator : Validator<Request>
+    {
+        public  RequestValidator()
+        {
+            RuleFor(r => r.ActionRadius).SetValidator(new ActionRadiusValidator());
+        }
+    }
 }

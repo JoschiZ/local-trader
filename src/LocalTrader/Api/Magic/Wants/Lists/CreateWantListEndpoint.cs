@@ -1,15 +1,18 @@
+using System.Security.Claims;
+using System.Threading;
+using System.Threading.Tasks;
 using FastEndpoints;
-using LocalTrader.Api.Account;
+using FluentValidation;
 using LocalTrader.Data;
 using LocalTrader.Data.Magic;
 using LocalTrader.Shared.Api;
-
-using LocalTrader.Shared.Api.Magic.Wants.Lists;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Http.HttpResults;
+using UserId = LocalTrader.Data.Account.UserId;
 
 namespace LocalTrader.Api.Magic.Wants.Lists;
 
-internal sealed class CreateWantListEndpoint : Endpoint<CreateWantListRequest, Results<Created, Conflict, UnauthorizedHttpResult>>
+internal sealed class CreateWantListEndpoint : Endpoint<CreateWantListEndpoint.Request, Results<Created, Conflict, UnauthorizedHttpResult>>
 {
     private readonly TraderContext _context;
 
@@ -23,7 +26,7 @@ internal sealed class CreateWantListEndpoint : Endpoint<CreateWantListRequest, R
         Put(ApiRoutes.Magic.Wants.Lists.Create);
     }
 
-    public override async Task<Results<Created, Conflict, UnauthorizedHttpResult>> ExecuteAsync(CreateWantListRequest req, CancellationToken ct)
+    public override async Task<Results<Created, Conflict, UnauthorizedHttpResult>> ExecuteAsync(Request req, CancellationToken ct)
     {
         var newWantList = new MagicWantList
         {
@@ -42,5 +45,24 @@ internal sealed class CreateWantListEndpoint : Endpoint<CreateWantListRequest, R
             .ConfigureAwait(false);
         
         return TypedResults.Created();
+    }
+    
+    public sealed class Request
+    {
+        public required string Name { get; set; }
+        public WantListAccessibility Accessibility { get; set; }
+        /// <summary>
+        /// http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier: 019b835b-628c-74f1-ab65-cf8a059748bf
+        /// </summary>
+        [FromClaim(ClaimTypes.NameIdentifier)]
+        public UserId UserId { get; set; }
+    }
+    
+    public sealed class Validator : AbstractValidator<Request>
+    {
+        public Validator()
+        {
+            RuleFor(x => x.Name).MinimumLength(5).MaximumLength(50);
+        }
     }
 }

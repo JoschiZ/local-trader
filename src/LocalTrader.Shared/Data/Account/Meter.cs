@@ -3,7 +3,7 @@
 namespace LocalTrader.Shared.Data.Account;
 
 [StronglyTypedId("decimal", "decimal-efcore")]
-public readonly partial struct Kilometers;
+public readonly partial struct Meter;
 
 [StronglyTypedId("decimal", "decimal-efcore")]
 public readonly partial struct Longitute;

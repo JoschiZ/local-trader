@@ -1,4 +1,4 @@
-﻿namespace LocalTrader.Shared.Data.Shared;
+﻿namespace LocalTrader.Data;
 
 public enum CardCondition
 {

@@ -14,7 +14,7 @@ partial struct PLACEHOLDERID :
 #if NET8_0_OR_GREATER
     global::System.IUtf8SpanParsable<PLACEHOLDERID>, global::System.IUtf8SpanFormattable,
 #endif
-    global::System.IComparable<PLACEHOLDERID>, global::System.IEquatable<PLACEHOLDERID>, global::System.IFormattable
+    global::System.IComparable<PLACEHOLDERID>, global::System.IEquatable<PLACEHOLDERID>, global::System.IFormattable, IComparable
 {
     public decimal Value { get; }
 
@@ -43,6 +43,17 @@ partial struct PLACEHOLDERID :
     public static bool operator <  (PLACEHOLDERID a, PLACEHOLDERID b) => a.CompareTo(b) < 0;
     public static bool operator >=  (PLACEHOLDERID a, PLACEHOLDERID b) => a.CompareTo(b) >= 0;
     public static bool operator <=  (PLACEHOLDERID a, PLACEHOLDERID b) => a.CompareTo(b) <= 0;
+    
+        public int CompareTo(object? obj)
+        {
+            if (obj == null)
+            {
+                return 1;
+            }
+            if (obj is PLACEHOLDERID otherValue) return otherValue.CompareTo(this);
+            
+            throw new ArgumentException($"Object must be of type {nameof(PLACEHOLDERID)}");
+        }
 
     /// <inheritdoc cref="global::System.IComparable{TSelf}"/>
     public int CompareTo(PLACEHOLDERID other) => Value.CompareTo(other.Value);

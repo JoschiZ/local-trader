@@ -5,7 +5,8 @@ var builder = DistributedApplication.CreateBuilder(args);
 
 var postgres = builder
     .AddPostgres(Services.PostgresServer)
-    .WithDataVolume();
+    .WithDataVolume()
+    .WithLifetime(ContainerLifetime.Persistent);
 
 var db = postgres
     .AddDatabase(Services.LocalTraderDb);

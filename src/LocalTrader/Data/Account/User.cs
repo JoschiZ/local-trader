@@ -21,10 +21,6 @@ public class User : IdentityUser<UserId>
     /// The location of a user
     /// </summary>
     public ActionRadius? Location { get; set; }
-    /// <summary>
-    /// How far the user is willing to go for a trade
-    /// </summary>
-    public Kilometers? ActionRadius { get; set; }
     
     public List<MagicWantList> MagicWantLists { get; init; } = [];
     public List<CollectionMagicCard> MagicCollection { get; set; } = [];

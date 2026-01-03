@@ -1,10 +1,13 @@
-﻿using LocalTrader.Data;
+﻿using System.Threading;
+using System.Threading.Tasks;
+using LocalTrader.Data;
 using LocalTrader.Data.Magic;
-using LocalTrader.Shared.Data.Magic.Cards;
+
 using LocalTrader.Shared.DataStructures.Results;
 using Microsoft.EntityFrameworkCore;
 using ScryfallApi.Client;
 using Error = LocalTrader.Shared.DataStructures.Results.Error;
+using ScryfallId = LocalTrader.Data.Magic.ScryfallId;
 
 namespace LocalTrader.Api.Magic;
 

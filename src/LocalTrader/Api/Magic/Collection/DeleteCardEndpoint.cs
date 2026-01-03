@@ -1,13 +1,17 @@
+using System.Linq;
 using System.Security.Claims;
 using System.Text.Json.Serialization;
+using System.Threading;
+using System.Threading.Tasks;
 using FastEndpoints;
 using JetBrains.Annotations;
 using LocalTrader.Data;
 using LocalTrader.Shared.Api;
-using LocalTrader.Shared.Data.Account;
-using LocalTrader.Shared.Data.Magic.Collection;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.EntityFrameworkCore;
+using CollectionMagicCardId = LocalTrader.Data.Magic.CollectionMagicCardId;
+using UserId = LocalTrader.Data.Account.UserId;
 
 namespace LocalTrader.Api.Magic.Collection;
 

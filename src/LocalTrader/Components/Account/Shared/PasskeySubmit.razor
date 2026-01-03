@@ -1,5 +1,6 @@
 ﻿@using Microsoft.AspNetCore.Antiforgery
-@inject IServiceProvider Services
+@using Microsoft.AspNetCore.Http
+@inject IAntiforgery Services
 
 <MudStaticButton FormAction="FormAction.Submit" name="__passkeySubmit" Variant="Variant.Filled" Color="Color.Primary" FullWidth="true" @attributes="AdditionalAttributes">@ChildContent</MudStaticButton>
 <passkey-submit
@@ -28,7 +29,7 @@
 
     protected override void OnInitialized()
     {
-        _tokens = Services.GetService<IAntiforgery>()?.GetTokens(HttpContext);
+        _tokens = Services.GetTokens(HttpContext);
     }
 
 }

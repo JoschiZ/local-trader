@@ -1,15 +1,19 @@
-using System.Linq.Expressions;
-using LocalTrader.Shared.Api.Magic.Wants.Lists;
-using Microsoft.AspNetCore.Http.HttpResults;
+using System.Linq;
+using System.Security.Claims;
+using System.Threading;
+using System.Threading.Tasks;
 using FastEndpoints;
+using FluentValidation;
 using LocalTrader.Data;
-using LocalTrader.Data.Magic;
 using LocalTrader.Shared.Api;
-using LocalTrader.Shared.Api.Magic.Wants.Cards;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.EntityFrameworkCore;
+using MagicWantListId = LocalTrader.Data.Magic.MagicWantListId;
+using UserId = LocalTrader.Data.Account.UserId;
 
 namespace LocalTrader.Api.Magic.Wants.Lists;
-internal sealed class GetWantListEndpoint : Endpoint<GetWantListRequest, Results<Ok<WantListDto>, NotFound>>
+internal sealed class GetWantListEndpoint : Endpoint<GetWantListEndpoint.Request, Results<Ok<WantListDto>, NotFound>>
 {
     private readonly TraderContext _context;
 
@@ -19,16 +23,16 @@ internal sealed class GetWantListEndpoint : Endpoint<GetWantListRequest, Results
     }
     public override void Configure()
     {
-        Get(ApiRoutes.Magic.Wants.Lists.Get, ApiRoutes.Magic.Wants.Lists.GetBinding);   
+        Get(ApiRoutes.Magic.Wants.Lists.Get, x => new {x.WantListId});   
         AllowAnonymous();
     }
 
-    public override async Task<Results<Ok<WantListDto>, NotFound>> ExecuteAsync(GetWantListRequest req, CancellationToken ct)
+    public override async Task<Results<Ok<WantListDto>, NotFound>> ExecuteAsync(Request req, CancellationToken ct)
     {
         var list =  await _context
             .Magic
             .WantLists
-            .Where(x => x.Accessibility == Accessibility.Public || x.UserId == req.UserId)
+            .Where(x => x.Accessibility == WantListAccessibility.Public || x.UserId == req.UserId)
             .Where(x => x.Id == req.WantListId)
             .ProjectToDto()
             .FirstOrDefaultAsync(ct)
@@ -36,29 +40,21 @@ internal sealed class GetWantListEndpoint : Endpoint<GetWantListRequest, Results
 
         return list is null ? TypedResults.NotFound() : TypedResults.Ok(list);
     }
-}
-
-internal static class WantListMappings
-{
-    private static readonly Expression<Func<WantedMagicCard, WantedMagicCardDto>> CardProjection = card =>
-        new WantedMagicCardDto(
-            card.Card!.Name,
-            card.Id,
-            card.MinimumCondition,
-            card.CardId,
-            card.Card.ScryfallId,
-            card.Card.ScryfallUrl);
-        
-    extension(IQueryable<MagicWantList> wantLists)
+    
+    public sealed class Request
     {
-        
-        
-        public IQueryable<WantListDto> ProjectToDto() => wantLists
-            .Select(x => new WantListDto(
-                x.Name,
-                x.UserId,
-                x.Accessibility,
-                x.Cards.Select(CardProjection.Compile()).ToArray()
-            ));
+        [FromClaim(ClaimTypes.NameIdentifier, false)]
+        public UserId UserId { get; init; }
+    
+        [BindFrom("wantListId"), RouteParam]
+        public MagicWantListId WantListId { get; init; }
+    }
+
+    public sealed class GetWantListRequestValidator : AbstractValidator<Request>
+    {
+        public GetWantListRequestValidator()
+        {
+            RuleFor(x => x.WantListId).NotEmpty();
+        }
     }
 }

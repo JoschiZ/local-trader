@@ -2,10 +2,10 @@ using JetBrains.Annotations;
 using LocalTrader.Data.Account;
 using LocalTrader.Data.Magic;
 using LocalTrader.Generated;
-using LocalTrader.Shared.Data.Account;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
+using UserId = LocalTrader.Data.Account.UserId;
 
 namespace LocalTrader.Data;
 
@@ -34,6 +34,7 @@ public class TraderContext : IdentityDbContext<User, IdentityRole<UserId>, UserI
     {
         base.ConfigureConventions(configurationBuilder);
         configurationBuilder.RegisterLocalTraderSharedStronglyTypedIds();
+        configurationBuilder.RegisterLocalTraderStronglyTypedIds();
     }
 }
 

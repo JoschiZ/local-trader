@@ -1,4 +1,6 @@
-﻿using LocalTrader.Shared.Data.Magic.Cards;
+﻿using System;
+using System.Collections.Generic;
+
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 

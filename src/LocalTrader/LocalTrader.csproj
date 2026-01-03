@@ -23,8 +23,7 @@
         <PackageReference Include="Scalar.AspNetCore.Swashbuckle" Version="2.11.8" />
         <PackageReference Include="StronglyTypedId" Version="1.0.0-beta08" />
         <PackageReference Include="StronglyTypedId.Templates" Version="1.0.0-beta08" />
-        <ProjectReference Include="..\LocalTrader.ServiceDefaults\LocalTrader.ServiceDefaults.csproj" />
-        <ProjectReference Include="..\LocalTrader.Client\LocalTrader.Client.csproj" />
+
         <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.Server" Version="10.0.1" />
         <PackageReference Include="Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore" Version="10.0.1" />
         <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="10.0.1" />
@@ -34,9 +33,15 @@
           <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
         </PackageReference>
         <PackageReference Include="Extensions.MudBlazor.StaticInput" Version="3.2.1" />
+
+    </ItemGroup>
+
+    <ItemGroup>
+        <ProjectReference Include="..\LocalTrader.ServiceDefaults\LocalTrader.ServiceDefaults.csproj" />
+        <ProjectReference Include="..\LocalTrader.Client\LocalTrader.Client.csproj" />
+        <ProjectReference Include="..\LocalTrader.Generators\LocalTrader.Generators\LocalTrader.Generators.csproj"  OutputItemType="Analyzer" ReferenceOutputAssembly="false"/>
         <ProjectReference Include="..\LocalTrader.Shared\LocalTrader.Shared.csproj" />
         <ProjectReference Include="..\ScryfallApi.Client\ScryfallApi.Client.csproj" />
     </ItemGroup>
-
 
 </Project>

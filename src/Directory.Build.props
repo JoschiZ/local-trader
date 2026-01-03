@@ -1,0 +1,5 @@
+<Project>
+    <ItemGroup>
+        <AdditionalFiles Include="../id-templates/*.typedid" />
+    </ItemGroup>
+</Project>

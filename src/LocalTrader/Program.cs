@@ -11,8 +11,8 @@ using LocalTrader.Components.Account;
 using LocalTrader.Data;
 using LocalTrader.Data.Account;
 using LocalTrader.ServiceDefaults;
+using LocalTrader.Shared;
 using LocalTrader.Shared.Aspire;
-using LocalTrader.Shared.Data.Magic.Cards;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Identity;
@@ -51,7 +51,7 @@ services.AddFastEndpoints(x =>
             settings.OperationProcessors.Add(new AspNetCoreOperationSecurityScopeProcessor());    
             settings.DocumentName = "v1";
             settings.SchemaSettings.RegisterTypeMappers<Program>();
-            settings.SchemaSettings.RegisterTypeMappers<ScryfallId>();
+            settings.SchemaSettings.RegisterTypeMappers<ISharedAssemblyMarker>();
         };
         
         
@@ -159,6 +159,7 @@ await app.GenerateClientsAndExitAsync("v1", path, settings =>
     settings.CSharpGeneratorSettings.Namespace = "LocalTrader.Client.ApiClients";
     settings.CSharpGeneratorSettings.UseRequiredKeyword = true;
     settings.CSharpGeneratorSettings.JsonLibraryVersion = 10;
+    settings.CSharpGeneratorSettings.TypeAccessModifier = "internal";
 }, null)
     .ConfigureAwait(false);
 

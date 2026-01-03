@@ -1,14 +1,22 @@
+using System.Linq;
+using System.Security.Claims;
+using System.Threading;
+using System.Threading.Tasks;
 using FastEndpoints;
+using FluentValidation;
 using LocalTrader.Data;
 using LocalTrader.Data.Magic;
 using LocalTrader.Shared.Api;
-using LocalTrader.Shared.Api.Magic.Wants.Cards;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.EntityFrameworkCore;
+using MagicWantListId = LocalTrader.Data.Magic.MagicWantListId;
+using ScryfallId = LocalTrader.Data.Magic.ScryfallId;
+using UserId = LocalTrader.Data.Account.UserId;
 
 namespace LocalTrader.Api.Magic.Wants.Cards;
 
-internal sealed class AddWantedMagicCardEndpoint : Endpoint<AddWantedMagicCardRequest, Results<Ok, UnauthorizedHttpResult, NotFound, Conflict>>
+internal sealed class AddWantedMagicCardEndpoint : Endpoint<AddWantedMagicCardEndpoint.Request, Results<Ok, UnauthorizedHttpResult, NotFound, Conflict>>
 {
     private readonly TraderContext _context;
     private readonly IMagicCardRepository _cardRepository;
@@ -21,10 +29,10 @@ internal sealed class AddWantedMagicCardEndpoint : Endpoint<AddWantedMagicCardRe
 
     public override void Configure()
     {
-        Put(ApiRoutes.Magic.Wants.Cards.Add, ApiRoutes.Magic.Wants.Cards.AddBinding);
+        Put(ApiRoutes.Magic.Wants.Cards.Add, x => new {x.ScryfallId});
     }
 
-    public override async Task<Results<Ok, UnauthorizedHttpResult, NotFound, Conflict>> ExecuteAsync(AddWantedMagicCardRequest req, CancellationToken ct)
+    public override async Task<Results<Ok, UnauthorizedHttpResult, NotFound, Conflict>> ExecuteAsync(Request req, CancellationToken ct)
     {
         var alreadyExists = await _context
             .Magic
@@ -74,5 +82,26 @@ internal sealed class AddWantedMagicCardEndpoint : Endpoint<AddWantedMagicCardRe
         await _context.SaveChangesAsync(ct).ConfigureAwait(false);
 
         return TypedResults.Ok();
+    }
+    
+    public sealed class Request
+    {
+        [FromClaim(ClaimTypes.NameIdentifier)]
+        public UserId UserId { get; init; }
+    
+        [BindFrom("wantListId"), RouteParam]
+        public MagicWantListId WantListId { get; init; }
+    
+        public required ScryfallId ScryfallId { get; set; }
+        public required int Quantity { get; set; }
+        public required CardCondition MinimumCondition { get; set; }
+    }
+
+    public sealed class Validator : Validator<Request>
+    {
+        public Validator()
+        {
+            RuleFor(x => x.Quantity).GreaterThan(1);
+        }
     }
 }
