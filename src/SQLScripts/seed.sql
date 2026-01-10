@@ -7,7 +7,7 @@ INSERT INTO "AspNetUsers" (
     "TwoFactorEnabled",
     "LockoutEnabled",
     "AccessFailedCount",
-    "Location_Langitude",
+    "Location_Longitude",
     "Location_Latitude",
     "Location_Radius")
 SELECT
@@ -18,8 +18,8 @@ SELECT
     random(0, 1)::boolean,
     random(0, 1)::boolean,
     random(0, 4),
-    random(0, 40),
-    random(0, 40),
+    random(-180, 180),
+    random(-90, 90),
     random(1, 10)
 FROM generate_series(1, 1_000) as gs;
 

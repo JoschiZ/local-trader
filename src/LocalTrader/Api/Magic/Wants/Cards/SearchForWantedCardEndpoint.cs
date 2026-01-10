@@ -56,11 +56,11 @@ internal sealed class SearchForWantedCardEndpoint : Endpoint<SearchForWantedCard
                       JOIN public."AspNetUsers" U on U."Id" = "CollectionCards"."UserId"
                       WHERE WC."CardId" = {req.WantedCardId}
                       AND "Condition" >= WC."MinimumCondition"
-                      AND ll_to_earth(U."Location_Latitude", U."Location_Langitude") -- location of the owner of the card
+                      AND ll_to_earth(U."Location_Latitude", U."Location_Longitude") -- location of the owner of the card
                               <@ earth_box(ll_to_earth({searchRadius.Latitude}, {searchRadius.Longitude}), {LocationConstants.MaximumRadius}) -- Is inside the allowed bounding box
-                      AND earth_distance(ll_to_earth(U."Location_Latitude", U."Location_Langitude"), ll_to_earth({searchRadius.Latitude}, {searchRadius.Longitude}))  -- distance between the owner and searcher
+                      AND earth_distance(ll_to_earth(U."Location_Latitude", U."Location_Longitude"), ll_to_earth({searchRadius.Latitude}, {searchRadius.Longitude}))  -- distance between the owner and searcher
                               <= {searchRadius.Radius} + U."Location_Radius"
-                      ORDER BY earth_distance(ll_to_earth(U."Location_Latitude", U."Location_Langitude"), ll_to_earth({searchRadius.Latitude}, {searchRadius.Longitude}))-- is smaller than the allowed radius
+                      ORDER BY earth_distance(ll_to_earth(U."Location_Latitude", U."Location_Longitude"), ll_to_earth({searchRadius.Latitude}, {searchRadius.Longitude}))-- is smaller than the allowed radius
                       """)
             .GroupBy(x => x.UserId)
             .Take(20)

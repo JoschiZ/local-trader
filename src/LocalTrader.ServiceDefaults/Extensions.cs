@@ -6,6 +6,7 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using OpenTelemetry;
 using OpenTelemetry.Metrics;
+using OpenTelemetry.Resources;
 using OpenTelemetry.Trace;
 
 namespace LocalTrader.ServiceDefaults;
@@ -75,15 +76,18 @@ public static class Extensions
         where TBuilder : IHostApplicationBuilder
     {
         var useOtlpExporter = !string.IsNullOrWhiteSpace(builder.Configuration["OTEL_EXPORTER_OTLP_ENDPOINT"]);
+        
+        if (useOtlpExporter) builder.Services.AddOpenTelemetry().UseOtlpExporter().ConfigureResource(x =>
+        {
+            var serviceName = builder.Configuration["OTEL_SERVICE_NAME"];
+            if (!string.IsNullOrWhiteSpace(serviceName))
+            {
+                var version = builder.Configuration["OTEL_SERVICE_VERSION"];
+                x.AddService(serviceName, serviceVersion: version);
+            }
 
-        if (useOtlpExporter) builder.Services.AddOpenTelemetry().UseOtlpExporter();
-
-        // Uncomment the following lines to enable the Azure Monitor exporter (requires the Azure.Monitor.OpenTelemetry.AspNetCore package)
-        //if (!string.IsNullOrEmpty(builder.Configuration["APPLICATIONINSIGHTS_CONNECTION_STRING"]))
-        //{
-        //    builder.Services.AddOpenTelemetry()
-        //       .UseAzureMonitor();
-        //}
+            x.AddEnvironmentVariableDetector();
+        });
 
         return builder;
     }

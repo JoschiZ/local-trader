@@ -16,5 +16,9 @@
     <Project Path="src/LocalTrader.Shared/LocalTrader.Shared.csproj" />
     <Project Path="src/ScryfallApi.Client/ScryfallApi.Client.csproj" />
   </Folder>
+  <Folder Name="/tests/">
+    <Project Path="tests/LocalTrader.Tests.Shared/LocalTrader.Tests.Shared.csproj" />
+    <Project Path="tests/LocalTrader.Tests/LocalTrader.Tests.csproj" />
+  </Folder>
   <Project Path="src/LocalTrader.AppHost/LocalTrader.AppHost.csproj" />
 </Solution>

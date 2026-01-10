@@ -12,7 +12,7 @@ using UserId = LocalTrader.Data.Account.UserId;
 
 namespace LocalTrader.Api.Magic.Wants.Lists;
 
-internal sealed class CreateWantListEndpoint : Endpoint<CreateWantListEndpoint.Request, Results<Created, Conflict, UnauthorizedHttpResult>>
+internal sealed class CreateWantListEndpoint : Endpoint<CreateWantListEndpoint.Request, Created>
 {
     private readonly TraderContext _context;
 
@@ -26,7 +26,7 @@ internal sealed class CreateWantListEndpoint : Endpoint<CreateWantListEndpoint.R
         Put(ApiRoutes.Magic.Wants.Lists.Create);
     }
 
-    public override async Task<Results<Created, Conflict, UnauthorizedHttpResult>> ExecuteAsync(Request req, CancellationToken ct)
+    public override async Task<Created> ExecuteAsync(Request req, CancellationToken ct)
     {
         var newWantList = new MagicWantList
         {
